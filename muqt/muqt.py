@@ -240,7 +240,7 @@ class MuQT(QtGui.QMainWindow):
 			else:
 				self.AppendToLogWindow(_("You are disconnected from Museek"))
 
-		except Exception,e:
+		except Exception as e:
 			if DEBUG: Output("away_toggle ERROR", e)
 
 	def InitialiseColumns(self, treeview, *args):
@@ -304,7 +304,7 @@ class MuQT(QtGui.QMainWindow):
 			else:
 				r = _("%d Bytes") % s
 			return r
-		except Exception, e:
+		except Exception as e:
 			return number
 			
 	def HumanSpeed(self, number):
@@ -319,7 +319,7 @@ class MuQT(QtGui.QMainWindow):
 			else:
 				r = _("%d B/s") % (number)
 			return r
-		except Exception, e:
+		except Exception as e:
 			return number
 			
 	def Humanize(self, number):

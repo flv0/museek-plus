@@ -76,7 +76,7 @@ class Driver:
 			self.socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 			try:
 				self.socket.connect(host)
-			except Exception, e:
+			except Exception as e:
 				self.socket = None
 				raise e
 		else:
@@ -88,7 +88,7 @@ class Driver:
 			self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 			try:
 				self.socket.connect(addr)
-			except Exception, e:
+			except Exception as e:
 				self.socket = None
 				raise e
 	
@@ -133,7 +133,7 @@ class Driver:
 		m.cipher = self.cipher
 		try:
 			newmessage = m.parse(data)
-		except Exception, e:
+		except Exception as e:
 			self.PassError(e)
 			return None
 		else:
@@ -296,7 +296,7 @@ class Driver:
 		while 1:
 			try:
 				message = self.fetch()
-			except Exception, e:
+			except Exception as e:
 				print e
 				continue
 			if message.__class__ == messages.Ping and message.id == id:

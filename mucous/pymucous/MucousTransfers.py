@@ -126,7 +126,7 @@ class Transfers:
 					dtw.idlok(1)
 					dtw.noutrefresh()
 			
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "transfer mode: " + str(e))
 			
 		try:
@@ -145,7 +145,7 @@ class Transfers:
 					self.DownloadManager()
 					#curses.doupdate()
 			self.Status()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "transfer panel: " + str(e))
 
 
@@ -343,9 +343,9 @@ class Transfers:
 				usw.erase()
 				usw.addstr(self.logs["uploads"], self.mucous.colors["blackwhite"] )
 				usw.refresh()
-			except Exception, e:
+			except Exception as e:
 				self.mucous.Help.Log( "debug", "Upload Status: " + str(e))
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "DrawUploadCount: " + str(e))
 	## Draw the Download counter with s as the value
 	# @param self Transfers
@@ -358,9 +358,9 @@ class Transfers:
 				dsw.erase()
 				dsw.addstr(self.logs["downloads"], self.mucous.colors["blackwhite"] )
 				dsw.refresh()
-			except Exception, e:
+			except Exception as e:
 				self.mucous.Help.Log( "debug", "Download Status: " + str(e))
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "DrawDownloadCount: " + str(e))
 	
 	## Wrap a green string with < and >
@@ -374,7 +374,7 @@ class Transfers:
 			window.addstr(height, pos, "< ")
 			window.addstr(height, pos+2, string.capitalize(), self.mucous.colors["green"] | curses.A_BOLD)
 			window.addstr(height, pos+2+len(string), " >")
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "TArrows: " + str(e))
 			
 	## Limit list to Transfers.sort method and window height :: Call Transfers.TransferItem
@@ -429,7 +429,7 @@ class Transfers:
 				finallist.append(item)
 			del clipped_list
 			return finallist
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "ListCompact: " + str(e))
 			
 	## Draw Transfer bar on selected window
@@ -471,7 +471,7 @@ class Transfers:
 			else:
 				window.addstr(s["height"]+1, 63, "< "+'Failed'+" >")
 			window.refresh()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "TransferBar: " + str(e))
 			
 	## Draw Transfer List Window Border 
@@ -543,7 +543,7 @@ class Transfers:
 	
 	
 			self.scrolling[self.current] = 0
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "DrawTransfersLists: " + str(e))
 			
 	## Draw Download List Contents 
@@ -634,11 +634,11 @@ class Transfers:
 					except :
 						pass
 					count += 1
-			except Exception, e:
+			except Exception as e:
 				self.mucous.Help.Log("debug", "Download log: " + str(e))
 			dtw.noutrefresh()
 
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "Download Manager: " + str(e))
 	## Draw Upload List Contents 
 	# @param self Transfers (Class)
@@ -725,7 +725,7 @@ class Transfers:
 			except:
 				pass
 			utw.noutrefresh()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "Upload Manager: " + str(e))
 			
 	## Merge transfer stats into a single string
@@ -792,7 +792,7 @@ class Transfers:
 			#line = self.mucous.dlang(line)
 			line += ((self.mucous.w-2 - len(line)) * " ")
 			return line, status
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "Transfer Item: "+tran +": " + str(e))
 
 	
@@ -843,7 +843,7 @@ class Transfers:
 				r = self.MouseTransferWindow(x, y, z, event, w)
 				if r == 1:
 					return	
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "Transfers.Mouse: " +str(e) )
 	
 	## Mouse Coordinates in a Transfers Window
@@ -897,7 +897,7 @@ class Transfers:
 					self.ModeTransfers()
 					return 1
 			return 0
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "MouseTransferWindow: " + str(e))
 			
 	## Get the transfer number of the currently selected transfer 
@@ -926,7 +926,7 @@ class Transfers:
 					break
 				count += 1
 			return number
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "get_transfer_number: " + str(e))
 
 	## Get the transfer list (status limited to Transfers.sort)  
@@ -964,6 +964,6 @@ class Transfers:
 						this_list.append(vals)
 			#this_list.sort(key=str.lower)
 			return this_list
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "get_transfers_list: " + str(e))
 			

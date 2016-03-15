@@ -97,7 +97,7 @@ class FormatData:
 			else:
 				clipped_list = []
 			return clipped_list, hightlight_position, start
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "scrollbox: " + str(e))
 			
 	## Convert a number into a human-readable string
@@ -119,7 +119,7 @@ class FormatData:
 			elif filesize == 0:
 				filefrmt = '0'
 			return filefrmt
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "byte_format: " + str(e))
         
 	## Another int-to-string Conversion
@@ -141,7 +141,7 @@ class FormatData:
 			else:
 				r = str(size)
 			return r
-		except Exception, e:
+		except Exception as e:
 			return size
 			
 	## Sort a dict by values
@@ -156,7 +156,7 @@ class FormatData:
 			mdict.sort()
 			mdict = map(_swap2, mdict)
 			return mdict
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "sortbyvalue: " + str(e))
 			
 	## Pad string to fill width of window
@@ -181,7 +181,7 @@ class FormatData:
 				# Add spaces till end of first and only line
 				s += " " * (w["width"] - ls)
 			return s, ls #, total_lines
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "StringAddBlanks: " + str(e))
 			
 	## Select an item in the list one place away
@@ -218,7 +218,7 @@ class FormatData:
 			if ix != None:
 				place = _list[ix]
 			return place
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "RotateList: " +str(e) )
 					
 	## Break a long string into a list of strings that each fit inside the required width
@@ -241,7 +241,7 @@ class FormatData:
 				# Short line added to list
 				list_of_strings.append(s)
 			return list_of_strings
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", ": " + str(e))
 
 	## Break a list apart and wrap each line in it to the required width and clip it so only the lines that fit are 
@@ -268,7 +268,7 @@ class FormatData:
 				scroll = len(wrapped_lines)
 			clipped_list, numlines, w["start"] = self.scrollbox(wrapped_lines, scroll, w["height"])
 			return clipped_list, scroll, w["start"]
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "wrap_n_clip " +str(e))
 			
 	## Add a number of characters to the current cursor position of a window

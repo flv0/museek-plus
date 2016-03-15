@@ -156,7 +156,7 @@ class museekdchat(driver.Driver):
 				try:
 					c = self.stdscr.getkey(self.h-2, self.edit.x)
 					keys.append(c)
-				except Exception, e:
+				except Exception as e:
 					pass
 	
 			while keys:
@@ -291,7 +291,7 @@ try:
 			curses.endwin()
 			continue
 		break
-except Exception, e:
+except Exception as e:
 	curses.nocbreak()
 	stdscr.keypad(0)
 	curses.echo()

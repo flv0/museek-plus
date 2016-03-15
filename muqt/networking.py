@@ -70,7 +70,7 @@ class Networking(driver.Driver, QtCore.QThread):
 				raise Exception,  "NOPASS"
 
 
-		except Exception, e:
+		except Exception as e:
 			if self.timer is not None: self.timer.cancel()
 
 			
@@ -102,7 +102,7 @@ class Networking(driver.Driver, QtCore.QThread):
 			self.frame.AppendToLogWindow(message)
 			#gobject.idle_add(self.frame.TrayApp.SetImage,"red")
 			if self.timer is not None: self.timer.cancel()
-		except Exception,e:
+		except Exception as e:
 			if DEBUG: self.Output("RECEIVED: cb_login_error ERROR", e)
 		self.connected = False
 		#
@@ -112,7 +112,7 @@ class Networking(driver.Driver, QtCore.QThread):
 		try:
 			message = "Logging in to Museek..."
 			#gobject.idle_add(self.frame.AppendToLogWindow, message)
-		except Exception,e:
+		except Exception as e:
 			if DEBUG: self.Output("RECEIVED: cb_login_ok ERROR", e)
 		self.connected = True
 		
@@ -127,7 +127,7 @@ class Networking(driver.Driver, QtCore.QThread):
 				self.frame.ui.Uploads.clear()
 			if self.timer is not None: self.timer.cancel()
 			self.cb_disconnected()
-		except Exception,e:
+		except Exception as e:
 			if DEBUG: self.Output("disconnect ERROR", e)
 		
 	def cb_disconnected(self):
@@ -149,7 +149,7 @@ class Networking(driver.Driver, QtCore.QThread):
 			self.emit(QtCore.SIGNAL("ConnClose()"))
 			self.connected = False
 			if self.timer is not None: self.timer.cancel()
-		except Exception, e:
+		except Exception as e:
 			if DEBUG: self.Output("RECEIVED: cb_disconnected ERROR", e)
 		
 		
@@ -168,7 +168,7 @@ class Networking(driver.Driver, QtCore.QThread):
 				self.close()
 			self.timer.cancel()
 			
-		except Exception,e:
+		except Exception as e:
 			if DEBUG: self.Output("CheckNick ERROR", e)
 
 			
@@ -230,7 +230,7 @@ class Networking(driver.Driver, QtCore.QThread):
 				self.frame.Recommendations.AddedLikedInterest(key)
 			elif domain == "autojoin":
 				self.frame.ChatRooms.AutoJoin(key, True)
-		except Exception,e:
+		except Exception as e:
 			if DEBUG: self.Output("RECEIVED: cb_config_set ERROR", e)
 
 		
@@ -366,7 +366,7 @@ class Networking(driver.Driver, QtCore.QThread):
 			return
 		try:
 			self.send( message ) 
-		except Exception, e:
+		except Exception as e:
 			if DEBUG: self.Output("Sending message failed", message, e)
 			
 	## Got Global Recommendations
@@ -377,7 +377,7 @@ class Networking(driver.Driver, QtCore.QThread):
 		
 			#gobject.idle_add(self.frame.Recommendations.UpdateRecommendations, recommendations)
 			self.Output(recommendations)
-		except Exception, e:
+		except Exception as e:
 			self.Output("CB Get Global Recommendations" + str(e))
 	
 	## Got Similar Users list
@@ -389,7 +389,7 @@ class Networking(driver.Driver, QtCore.QThread):
 			
 			#gobject.idle_add(self.frame.Recommendations.UpdateSimilarUsers, users)
 			self.Output( users)
-		except Exception, e:
+		except Exception as e:
 			self.Output("CB Similar Users" + str(e))
 			self.frame.PrintTraceBack()
 	
@@ -401,7 +401,7 @@ class Networking(driver.Driver, QtCore.QThread):
 			
 			#gobject.idle_add(self.frame.Recommendations.UpdateRecommendations, recommendations)
 			self.Output(recommendations)
-		except Exception, e:
+		except Exception as e:
 			self.Output("CB Get  Recommendations" + str(e))
 	
 	## Got Similar Users list for an Item
@@ -413,7 +413,7 @@ class Networking(driver.Driver, QtCore.QThread):
 			
 			#gobject.idle_add(self.frame.Recommendations.UpdateSimilarUsers, users)
 			self.Output( users)
-		except Exception, e:
+		except Exception as e:
 			self.Output("CB Item Similar Users" + str(e))
 	
 	## Got Recommendations for an Item
@@ -424,7 +424,7 @@ class Networking(driver.Driver, QtCore.QThread):
 		try:
 			#gobject.idle_add(self.frame.Recommendations.UpdateRecommendations, recommendations)
 			self.Output(recommendations)
-		except Exception, e:
+		except Exception as e:
 			self.Output("CB Get Item Recommendations" + str(e))
 
         def cb_room_list(self, roomlist):
@@ -472,7 +472,7 @@ class Networking(driver.Driver, QtCore.QThread):
 				#gobject.idle_add(self.frame.uploads.append, transfer.user, None, transfer.rate, transfer.state, transfer.filepos, transfer.filesize, transfer.path, transfer.error, transfer.place)
 			#for transfer in downloads:
 				#gobject.idle_add(self.frame.downloads.append, transfer.user, None, transfer.rate, transfer.state, transfer.filepos, transfer.filesize, transfer.path, transfer.error, transfer.place)
-		except Exception, e:
+		except Exception as e:
 			self.Output(e)
 		#
 
@@ -487,7 +487,7 @@ class Networking(driver.Driver, QtCore.QThread):
 				#gobject.idle_add(self.frame.uploads.update , transfer.user, None, transfer.rate, transfer.state, transfer.filepos, transfer.filesize, transfer.path, transfer.error, transfer.place)
 			#else:
 				#gobject.idle_add(self.frame.downloads.update, transfer.user, None, transfer.rate, transfer.state, transfer.filepos, transfer.filesize, transfer.path, transfer.error, transfer.place)
-		except Exception,e:
+		except Exception as e:
 			if DEBUG: self.Output("RECEIVED: cb_transfer_update ERROR", e)
 		#
 			
@@ -511,7 +511,7 @@ class Networking(driver.Driver, QtCore.QThread):
 		try:
 			pass
 			#gobject.idle_add(self.frame.userbrowses.GotUserBrowse, user, shares)
-		except Exception,e:
+		except Exception as e:
 			if DEBUG: self.Output("RECEIVED: cb_user_shares ERROR", e)
 		
 			
@@ -523,7 +523,7 @@ class Networking(driver.Driver, QtCore.QThread):
 
 			#gobject.idle_add(self.frame.userinfos.GotUserInfo, user, info, picture, uploads, queue, slotsfree)
 	
-		except Exception,e:
+		except Exception as e:
 			if DEBUG: self.Output("RECEIVED: cb_user_info ERROR", e)
 		
 		
@@ -534,7 +534,7 @@ class Networking(driver.Driver, QtCore.QThread):
 		
 			#gobject.idle_add(self.frame.ChatRooms.SayChatRoom, room, user, text)
 			#gobject.idle_add(self.frame.Logging.ChatRoomLog, room, user, text)
-		except Exception,e:
+		except Exception as e:
 			if DEBUG: self.Output("RECEIVED: cb_room_said ERROR", e)
 		
 			
@@ -554,7 +554,7 @@ class Networking(driver.Driver, QtCore.QThread):
 				
 				#gobject.idle_add(self.frame.ChatRooms.JoinRoom, str(room), joined[room])
 				pass
-		except Exception, e:
+		except Exception as e:
 			if DEBUG: self.Output("Room State bug", e)
 			self.frame.PrintTraceBack()
 
@@ -570,7 +570,7 @@ class Networking(driver.Driver, QtCore.QThread):
 			#gobject.idle_add(self.frame.ChatRooms.JoinRoom, room, list_of_users)
 			pass
 				
-		except Exception, e:
+		except Exception as e:
 			if DEBUG: self.Output("Join room bug", e)
 		
 		
@@ -579,7 +579,7 @@ class Networking(driver.Driver, QtCore.QThread):
 		try:
 			#gobject.idle_add(self.frame.ChatRooms.LeaveRoom, room)
 			self.emit(QtCore.SIGNAL("LeaveRoom(PyQt_PyObject)"), room)
-		except Exception, e:
+		except Exception as e:
 			if DEBUG: self.Output("Leave room bug", e)
 		
 			
@@ -593,7 +593,7 @@ class Networking(driver.Driver, QtCore.QThread):
 			self.frame.user_exists[user] = stats[5]
 			self.emit(QtCore.SIGNAL("UserJoinedRoom(PyQt_PyObject, PyQt_PyObject)"), room, user)
 			
-		except Exception, e:
+		except Exception as e:
 			if DEBUG: self.Output("User Joined room bug", e)
 		
 
@@ -606,7 +606,7 @@ class Networking(driver.Driver, QtCore.QThread):
 			#gobject.idle_add(self.frame.ChatRooms.UserLeftRoom, room, user)
 			self.emit(QtCore.SIGNAL("UserLeftRoom(PyQt_PyObject, PyQt_PyObject)"), room, user)
 
-		except Exception, e:
+		except Exception as e:
 			if DEBUG: self.Output("User Left room bug", e)
 		
 
@@ -629,7 +629,7 @@ class Networking(driver.Driver, QtCore.QThread):
 					self.Output("You PM'd to %s: %s" % (user, message))
 				else:
 					self.Output("%s PM'd to you: %s" % (user, message))
-		except Exception,e:
+		except Exception as e:
 			if DEBUG: self.Output("RECEIVED: cb_private_message ERROR", e)
 		#
 			
@@ -650,7 +650,7 @@ class Networking(driver.Driver, QtCore.QThread):
 					if DEBUG: self.Output("No Geoip")
 					message="%s's IP: %s Port: %s" % (user, str(ip), str(port) )
 				#gobject.idle_add(self.frame.AppendToLogWindow, message)
-		except Exception,e:
+		except Exception as e:
 			if DEBUG: self.Output("RECEIVED: cb_peer_address ERROR", e)
 		#
 			
@@ -685,7 +685,7 @@ class Networking(driver.Driver, QtCore.QThread):
 
 			self.frame.username = username
 					
-		except Exception,e:
+		except Exception as e:
 			if DEBUG: self.Output("RECEIVED: cb_server_state ERROR", e)
 		
 		
@@ -707,7 +707,7 @@ class Networking(driver.Driver, QtCore.QThread):
 				#gobject.idle_add(self.frame.TrayApp.SetToolTip, message ) 
 				#gobject.idle_add(self.frame.update_statusbar, message )
 			
-		except Exception,e:
+		except Exception as e:
 			if DEBUG: self.Output("RECEIVED: cb_server_status_set ERROR", e)
 		
                 
@@ -723,7 +723,7 @@ class Networking(driver.Driver, QtCore.QThread):
 				#gobject.idle_add(self.frame.userlists.updateListIcon, user)
 				#gobject.idle_add(self.frame.PrivateChats.updateStatus, user, status)
 				
-		except Exception,e:
+		except Exception as e:
 			if DEBUG: self.Output("RECEIVED: cb_peer_exists ERROR", e)
 		#
                 
@@ -740,7 +740,7 @@ class Networking(driver.Driver, QtCore.QThread):
 				
 			else:
 				self.frame.user_stats[user] = [0, speed, downloads, files, dirs]
-		except Exception,e:
+		except Exception as e:
 			if DEBUG: self.Output("RECEIVED: cb_peer_stats ERROR", e)
 		#
 		
@@ -766,7 +766,7 @@ class Networking(driver.Driver, QtCore.QThread):
 			#gobject.idle_add(self.frame.userlists.updateStatus, user, status)
 			#gobject.idle_add(self.frame.PrivateChats.updateStatus, user, status)
 			
-		except Exception,e:
+		except Exception as e:
 			if DEBUG: self.Output("RECEIVED: cb_peer_status ERROR1", e)
 			
 	## Museekd sent us a special message
@@ -784,7 +784,7 @@ class Networking(driver.Driver, QtCore.QThread):
 			
 			#gobject.idle_add(self.frame.AppendToLogWindow, "%s Message: %s" % (stype, message))
 			
-		except Exception,e:
+		except Exception as e:
 			self.Output("cb_status_message: " +str( e))
 		#
 	## Museekd sent us a debug message
@@ -798,7 +798,7 @@ class Networking(driver.Driver, QtCore.QThread):
 			if domain in ["museek.note", "museek.warn"] :
 				self.frame.AppendToLogWindow( "%s Message: %s" % (domain, message))
 				
-		except Exception,e:
+		except Exception as e:
 			self.Output("cb_debug_message: " +str( e))
 		
 
@@ -832,7 +832,7 @@ class Networking(driver.Driver, QtCore.QThread):
 				
 				#self.frame.MurmurWindow.show_all() 
 
-			except Exception, exception:
+			except Exception as exception:
 				if DEBUG: self.Output("Process Exception", Exception, exception)
 				import traceback
 				tb = traceback.format_tb(sys.exc_info()[2])
@@ -849,7 +849,7 @@ class Networking(driver.Driver, QtCore.QThread):
 			return
 		try:
 			self.send(message)
-		except Exception, e:
+		except Exception as e:
 			if  e.args[0] == 10054:
 				self.cb_disconnected()
 			self.Output("SendMessage: " + str(e) + " " + str(message))

@@ -64,7 +64,7 @@ class RoomsList:
 			
 			self.mucous.HotKeyBar()
 			curses.doupdate()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "RoomsList.Mode: " + str(e))
 		
 
@@ -99,7 +99,7 @@ class RoomsList:
 					self.scrolling  = y  + w["start"]
 					self.Format()
 					return self.sizedrooms[self.scrolling]
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "RoomsList.Mouse: " +str(e) )
 	
 	## Build and display RoomsList border and sort bar
@@ -166,7 +166,7 @@ class RoomsList:
 			#self.scrolling
 			self.scrolling = 0
 			tw.noutrefresh()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "RoomsList.DrawWindow: " + str(e))
 			
 	## Display one room 
@@ -192,7 +192,7 @@ class RoomsList:
 				spaces = ''
 			self.windows["text"].addstr(string+spaces, attrib)
 			
-		except Exception, e:
+		except Exception as e:
 			pass
 			# Always errors
 			#self.mucous.Help.Log("debug", "RoomsList.Draw: " + str(e))
@@ -208,7 +208,7 @@ class RoomsList:
 				self.Draw(rooms10, count, self.dimensions["start"])
 				count += 1
 			self.windows["text"].refresh()
-		except Exception, e:
+		except Exception as e:
 			print e
 			self.mucous.Help.Log("debug", "RoomsList.Format: " + str(e))
 				

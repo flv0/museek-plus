@@ -41,7 +41,7 @@ class Setup:
 			self.input = "default"
 			self.Mode()
 			self.mucous.ModeTopbar()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "Setup.Default: "+ str(e))
 			
 	## Create window, display contents
@@ -122,7 +122,7 @@ class Setup:
 				self.DrawMuseek()
 				
 
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "Setup.Mode: " + str(e) )
 		
 		self.mucous.HotKeyBar()
@@ -576,13 +576,13 @@ class Setup:
 				try:
 					line = line.replace('\\n', '\n')
 					self.mucous.D.ConfigSet("userinfo", "text", line)
-				except Exception, e:
+				except Exception as e:
 					self.mucous.Help.Log("debug", "set userinfo: "+str( e))
 			elif self.input == "userimage":
 				
 				try:
 					self.mucous.D.ConfigSet("userinfo", "image", line)
-				except Exception, e:
+				except Exception as e:
 					self.mucous.Help.Log("debug", "set userinfo image: "+str( e))
 			
 			# Logging
@@ -597,7 +597,7 @@ class Setup:
 				self.SetInput()
 			#self.input = "default"
 			#self.Mode()
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "InputSetup: " + str(e))
 	
 	## Draw Mucous settings
@@ -758,7 +758,7 @@ class Setup:
 			window.scrollok(0)
 			try:
 				window.addstr( option[:width] , color)
-			except Exception,e:
+			except Exception as e:
 				pass
 				#self.mucous.Help.Log("debug", "EditLine: "+str(e))
 			window.noutrefresh()
@@ -766,7 +766,7 @@ class Setup:
 				self.mucous.UseAnotherEntryBox(window, height, width, x, y, option, wrap=False)
 			else:
 				del window
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "EditLine: "+str(e))
 		
 	## Create a Button
@@ -817,7 +817,7 @@ class Setup:
 				del win
 			del winborder
 				
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "SetupButton: "+title+" "+ str(e))
 			
 	## Create a Check box or a toggle button
@@ -867,7 +867,7 @@ class Setup:
 			
 			del win
 
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "SetupButton: "+title+" "+ str(e))
 			
 	## Mouse Coordinates in the Setup Mode
@@ -1112,7 +1112,7 @@ class Setup:
 			
 			
 					
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "Setup.Mouse: " +str(e) )
 		
 		

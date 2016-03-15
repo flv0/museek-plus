@@ -74,7 +74,7 @@ class Search:
 			self.input = "default"
 			self.Mode()
 			self.mucous.ModeTopbar()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "Search.Default: "+ str(e))
 			
 	## Create Search window
@@ -176,7 +176,7 @@ class Search:
 			else:
 				self.mucous.HotKeyBar()
 			curses.doupdate()
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "Search.Mode: "+str(e))
 			
 	## Draw Buttons for switching with the mouse to Instructions view
@@ -199,7 +199,7 @@ class Search:
 			mw.addstr(vertex,self.mucous.w-3, ">")
 			
 			mw.noutrefresh()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "DrawInstructionsButtons: " + str(e))
 				
 	def MethodSwitch(self, direction=None):
@@ -238,7 +238,7 @@ class Search:
 				self.Stats("status", "Started search for: %s" % query, str(ticket), 0)
 			self.results[str(ticket)] = {}	
 			self.numresults[str(ticket)] = 0
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "Search.NewTicket: "+str(e))
 			
 	## New Search Results recieved
@@ -282,7 +282,7 @@ class Search:
 				else:
 					self.Count(num)
 					self.mucous.DrawTabs(self.tickets.keys(), self.current)
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "Search.NewResults: "+str(e))
 	
 	## Get Download from number
@@ -298,7 +298,7 @@ class Search:
 			user = self.results[self.current][number][1]
 			path = self.results[self.current][number][5]
 			return user, path
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "Search.GetDownloadFromNum: "+str(e))
 	
 	## Download Search result 
@@ -320,7 +320,7 @@ class Search:
 			self.mucous.AutobuddyUser(user)
 				
 				
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "DownloadSearch: " + str(e))
 	
 	## Draw Sort Bar 
@@ -361,7 +361,7 @@ class Search:
 	
 			mw.noutrefresh()
 			
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "Search.SortBar: "+str(e))
 			
 	## Draw Search Instructions/Help or call Search.FormatResults 
@@ -377,7 +377,7 @@ class Search:
 					try:
 						lines, ls = self.mucous.FormatData.StringAddBlanks(lines, w)
 						tw.addstr(self.mucous.dlang(lines))
-					except Exception, e:
+					except Exception as e:
 						#self.mucous.Help.Log("debug", e)
 						pass
 				tw.noutrefresh()
@@ -386,11 +386,11 @@ class Search:
 				try:
 					if self.mucous.PopupMenu.show == True: raise  Exception,  "popup"
 					self.FormatResults(self.current)
-				except Exception, e:
+				except Exception as e:
 					#self.mucous.Help.Log("debug", e)
 					pass
 			
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "Search.Draw: "+str(e))
 	
 	## Draw the number of Search results in the Search counter
@@ -413,10 +413,10 @@ class Search:
 				ssw.addstr(self.mucous.logs["search_count"][0],  self.mucous.colors["blackwhite"] )
 				ssw.addstr(str(self.mucous.logs["search_count"][1]),  self.mucous.colors["blackwhite"] )
 				ssw.refresh()
-			except Exception, e:
+			except Exception as e:
 				pass
 				#self.mucous.Help.Log( "debug", "Search Status: " + str(e))
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "Search.Count: " + str(e))
 	
 	## Clear all search data
@@ -431,7 +431,7 @@ class Search:
 			self.username = None
 			self.Count(0)
 			self.Mode()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "Search.Clear: " + str(e))
 	
 	## Close Search tab
@@ -456,7 +456,7 @@ class Search:
 			if ticket in self.mucous.Alerts.alert["SEARCH"]:
 				self.mucous.Alerts.alert["SEARCH"].remove(ticket)
 			self.Mode()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "Search.Close: " + str(e))
 	
 	## Format Results for this ticket to fit search window and send them to Search.Stats
@@ -553,7 +553,7 @@ class Search:
 			#self.mucous.DrawTabs(self.results.keys(), self.current)
 			self.mucous.DrawTabs(self.tickets.keys(), self.current)
 			##self.mucous.Help.Log("debug", "Search.Start: " + str(clipped_list))
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "Search.FormatResults: " + str(e))
 
 	## Draw Result and Stats (if it's the current scroll position) 
@@ -664,10 +664,10 @@ class Search:
 					tw.addstr(file, attrc)
 					if extra != "":
 						tw.addstr(extra, attr)
-				except Exception, e:
+				except Exception as e:
 					pass
 
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "Search Log: " + str(e))
 			
 	## Parse input functions
@@ -892,6 +892,6 @@ class Search:
 				self.input = "default"
 				self.Mode()
 			
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "Search.Mouse: " +str(e) )
 			

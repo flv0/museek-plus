@@ -113,7 +113,7 @@ class ChatRooms:
 					mw.noutrefresh()
 					
 				tw =self.windows["text"]["chat"] = self.windows["border"]["chat"].subwin(w["height"], w["width"], w["top"], w["left"]-1)
-			except Exception, e:
+			except Exception as e:
 				self.mucous.Help.Log("debug", "Chat Mode: " + str(e))
 			mw.leaveok(1)
 			tw.scrollok(0)
@@ -127,7 +127,7 @@ class ChatRooms:
 
 			
 			curses.doupdate()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "ChatRooms.Mode: " + str(e))
 			
 	def ClearLog(self):
@@ -171,7 +171,7 @@ class ChatRooms:
 				self.tickers[name] = CleanedTickers
 			else:
 				self.tickers[name] = {}
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "ChatRooms.Joined: " + str(e))
 			
 	## Leave a room or current room
@@ -303,7 +303,7 @@ class ChatRooms:
 			else:
 				self.mucous.D.SayRoom(room, message)
 					
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "SayInChat: " + str(e))
 
 				
@@ -358,7 +358,7 @@ class ChatRooms:
 					self.scrolling["roomstatus"] = -1
 					self.DrawStatusText()
 
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "AppendStatus: " + str(e))
 	## Join a room
 	# @param self is ChatRooms (Class)
@@ -366,7 +366,7 @@ class ChatRooms:
 	def JoinRoom(self, room):
 		try:
 			self.mucous.D.JoinRoom( self.mucous.dlang( room ) )
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "JoinRoom: " + str(e))
 	## A user joined a room we are in
 	# @param self is ChatRooms (Class)
@@ -403,7 +403,7 @@ class ChatRooms:
 						self.SetRoom(self.current)
 						break
 				curses.doupdate()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "ChatRooms.UserJoined: " + str(e))
 			
 	def DrawTickerScroll(self, tickers):
@@ -440,8 +440,8 @@ class ChatRooms:
 			bw.addstr(posy, posx, "<%s%s>" %(fullmessage[:s["width"]-3], fill))
 			bw.refresh()
 			
-		except Exception, error:
-			self.Help.Log("debug", error)
+		except Exception as e:
+			self.Help.Log("debug", e)
 		self.numticker += 1
 		#if self.numticker >= len(tickers):
 			#self.numticker = 0
@@ -476,8 +476,8 @@ class ChatRooms:
 				string = "< [%s] %s%s>" %(names, tick, fill)
 				mw.addstr(0, 18, self.mucous.dlang( string ))
 				mw.refresh()
-		except Exception, error:
-			self.Help.Log("debug", error)
+		except Exception as e:
+			self.Help.Log("debug", e)
 
 
 		self.numticker += 1
@@ -520,7 +520,7 @@ class ChatRooms:
 				else:
 					self.DrawTickerCycle(sorted_tickers)
 				curses.doupdate()
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "ChatRooms.DrawTicker: " + str(e))
 		self.drawing_ticker = False
 		
@@ -557,7 +557,7 @@ class ChatRooms:
 # 				mw.addstr(s["height"]+1, 2, "< "+str(abs(self.scrolling["chatroom"]))+" >", curses.A_BOLD)
 			mw.noutrefresh()
 			
-		except Exception,e :
+		except Exception as e :
 			self.mucous.Help.Log("debug", "ChatRooms.DrawChatWin: " + str(e))
 
 	## Mouse Coordinates in the Chat Rooms Mode
@@ -645,7 +645,7 @@ class ChatRooms:
 					if y >= w["top"]-1 and y < w["top"] + w["height"] +1 and x >= w["left"] -1 and x < w["left"] +w["width"]+1:
 						self.selected = "roomstatus"
 						self.Mode()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "MouseChat: " +str(e) )
 			
 	## Read Old Chat Room Logs from Disk
@@ -703,7 +703,7 @@ class ChatRooms:
 			self.AppendChat("Status", room, '', "Connected to Museek")
 			#self.logs["rooms"][room].append(["Status", "--------", "", "Connected to Museek"])
 			
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "OldLogs: " +str( e) )
 			
 	## Draw Status Window Text
@@ -746,12 +746,12 @@ class ChatRooms:
 						tw.addstr(self.mucous.dlang( line ))
 					count += 1
 
-			except Exception, e:
+			except Exception as e:
 				pass
 
 			
 			tw.noutrefresh()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "DrawStatusText: " + str(e))
 					
 	## Draw the contents of the user-box
@@ -813,7 +813,7 @@ class ChatRooms:
 				
 			except:
 				pass
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "DrawBoxUsers " +str(e))	
 			
 	## Create the window and border of the user-box
@@ -903,10 +903,10 @@ class ChatRooms:
 						else:
 							tw.addstr("* Empty")
 							tw.noutrefresh()
-					except Exception, e:
+					except Exception as e:
 						self.mucous.Help.Log("debug", "RSB: " + str(e))
 			#curses.doupdate()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "DrawBox " +str(e))
 			
 			
@@ -921,7 +921,7 @@ class ChatRooms:
 					self.ticker_timer.cancel()
 					self.ticker_timer = threading.Timer(1.0, self.DrawTicker)
 					self.ticker_timer.start()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "TickersStartTimer: " + str(e))
 	## Toggle whether tickers are displayed or not 
 	# @param self is ChatRooms (class)
@@ -934,7 +934,7 @@ class ChatRooms:
 				self.mucous.Config["tickers"]["tickers_enabled"] = 'no'
 			if self.mucous.mode=="setup":
 				self.mucous.Setup.Mode()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "ToggleTickersDisplay: "+str(e))
 			
 	## Toggle the way Tickers are displayed (Scrolling, Cycling) 
@@ -959,7 +959,7 @@ class ChatRooms:
 				curses.doupdate()
 			elif self.mucous.mode=="setup":
 				self.mucous.Setup.Mode()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "ToggleTickers: "+str(e))
 			
 	## Interator for Chat Room User List
@@ -975,7 +975,7 @@ class ChatRooms:
 			for lines in clipped_list:
 				self.DrawBoxUsers(lines, w["start"])
 			tw.noutrefresh()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "FormatBox: " + str(e))
 			
 	## Format Current Chat Room
@@ -1003,7 +1003,7 @@ class ChatRooms:
 	
 			self.DrawChatWin()
 			self.windows["text"]["chat"].noutrefresh()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "FormatChatText: " + str(e))
 			
 	## Insanely complex line wraping for chat messages
@@ -1102,7 +1102,7 @@ class ChatRooms:
  						
 				pos += 1
 			return cut_list
-		except Exception, e:
+		except Exception as e:
 			# Exceptions are Inevitable
 			self.mucous.Help.Log("debug", "LineWrap: " + str(e))
 			
@@ -1244,16 +1244,16 @@ class ChatRooms:
 						tw.addstr(s)
 						
 	
-			except Exception, e:
+			except Exception as e:
 				pass
 				#self.mucous.Help.Log("debug", "DrawChatText: " + str(e))
 				# Exceptions are Inevitable
 			try:
 				if length < w["width"]:
 					tw.addstr(" " * (w["width"] - length))
-			except Exception, e:
+			except Exception as e:
 				pass
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "DrawChatText: " + str(e))
 			
 	## Append message to Chat Log
@@ -1287,7 +1287,7 @@ class ChatRooms:
 					self.scrolling["chatroom"] = -1
 					self.FormatChatText()
 					self.scrolling["chatroom"] = temp
-		except Exception,e :
+		except Exception as e :
 			self.mucous.Help.Log("debug", "AppendChat: " + str(e))
 
 	## Draw Chat Room Status Window Border 
@@ -1359,7 +1359,7 @@ class ChatRooms:
 				
 			self.mucous.Config["mucous"]["roombox"] = self.shape
 			self.Mode()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "ChatLayout: " + str(e))
 			
 	
@@ -1407,7 +1407,7 @@ class ChatRooms:
 	
 					# Clean screen
 					ibw.noutrefresh()
-			except Exception, e:
+			except Exception as e:
 				pass
 			
 			try:
@@ -1435,7 +1435,7 @@ class ChatRooms:
 				pass
 			
 			self.mucous.Alerts.Check()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "SetRoom: " + str(e))
 		
 		

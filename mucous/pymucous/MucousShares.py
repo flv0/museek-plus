@@ -100,7 +100,7 @@ class BrowseShares:
 			path = self.current_dir+"\\"+self.files[number]
 			return user, path
 				
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "download_path_file: " + str(e))
 			
 	## Create windows and Call draw functions
@@ -157,7 +157,7 @@ class BrowseShares:
 			self.FormatBrowse()
 			curses.doupdate()
 			del w
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "BrowseShares.Mode: " + str(e))
 			
 	## Recieved shares
@@ -219,7 +219,7 @@ class BrowseShares:
 			if self.mucous.mode == "browse":
 				self.mucous.SetEditTitle("Browse "+user+"'s files in " + self.current_dir + " ")
 				self.Mode()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "BrowseShares.Recieved: " + str(e))
 			
 	## Draw Browse Window Border
@@ -272,7 +272,7 @@ class BrowseShares:
 				#s = "Browse "+self.current+"'s files in "
 				#ls = len(s)
 				#self.mucous.SetEditTitle( self.current_dir[:self.mucous.w-8] )
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "BrowseShares.DrawBrowseWin: " + str(e))
 			
 	## Parse Directories and display extremely formatted list
@@ -296,7 +296,7 @@ class BrowseShares:
 					try:
 						self.DrawBrowseFileText(lines, count , self.scrolling["files"])
 		
-					except Exception, e:
+					except Exception as e:
 						self.mucous.Help.Log("debug", "Browse mode" + str(e))
 				tw.noutrefresh()
 				return
@@ -347,7 +347,7 @@ class BrowseShares:
 							else:
 								self.dirswithtree.append([directory, 0])
 								self.dirs.append(directory)
-					except Exception, e:
+					except Exception as e:
 						for dir in collapsed:
 							if dir in directory:
 								pass
@@ -401,13 +401,13 @@ class BrowseShares:
 					else:
 						Dirwin.addstr(string)
 					count += 1
-				except Exception, e:
+				except Exception as e:
 					pass
 					#self.mucous.Help.Log("debug", str(e))
 			del clipped_list
 			
 			
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "BrowseShares.FormatBrowseDirs: " + str(e))
 			
 	## Format Files and Directories (with calls to functions)
@@ -434,7 +434,7 @@ class BrowseShares:
 			self.mucous.DrawTabs(self.users, self.current)
 
 			
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "BrowseShares.FormatBrowse: " + str(e))
 			
 
@@ -447,7 +447,7 @@ class BrowseShares:
 			if user not in self.requests:
 				self.requests.append(user)
 			self.mucous.D.UserShares(user)
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "BrowseShares.Get" + str(e))
 
 	## Draw file's number, name and size
@@ -482,7 +482,7 @@ class BrowseShares:
 			space = " " * ( z )
 			tw.addstr(space, attr)
 			
-		except Exception, e:
+		except Exception as e:
 			#self.mucous.Help.Log("debug", "BrowseShares.BrowseFileText: " + str(e))
 			pass
 	
@@ -578,7 +578,7 @@ class BrowseShares:
 				count += 1
 			tw.refresh()
 			
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "BrowseShares.DrawFiles: " + str(e))
 			
 	## Draw File's stats in FileBar
@@ -636,7 +636,7 @@ class BrowseShares:
                         self.windows["browsebar"].addstr("Kbps | Length: ")
                         self.windows["browsebar"].addstr(length, atr)
 			self.windows["browsebar"].refresh()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "BrowseShares.FileBar: " + str(e))
 			
 	## Change Directory to line
@@ -680,7 +680,7 @@ class BrowseShares:
 				s = "Browse "+self.current+"'s files in "
 				ls = len(s)
 				self.mucous.SetEditTitle(s  + self.current_dir[:self.mucous.w-ls-4] + " ")
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "BrowseShares.ChangeDir: " + str(e))
 			
 	## Get Parent directory of current_dir
@@ -702,7 +702,7 @@ class BrowseShares:
 				return directory
 			else:
 				return None
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "BrowseShares.ParentDir: " + str(e))
 	## Close Tab of user
 	# @param self BrowseShares (class)
@@ -724,7 +724,7 @@ class BrowseShares:
 			if user in self.mucous.Alerts.alert["BROWSE"] and user != "__default":
 				self.mucous.Alerts.alert["BROWSE"].remove(user)
 			self.Mode()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "BrowseShares.Close: " + str(e))
 	
 	## Mouse Coordinates in the Browse Shares Mode
@@ -809,5 +809,5 @@ class BrowseShares:
 					return
 				elif x >=self.mucous.w-10 and x < self.mucous.w-1 and self.current != None:
 					self.Close(self.current)
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "BrowseShares.MouseBrowse: " +str(e) )

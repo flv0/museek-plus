@@ -15,7 +15,7 @@ class museekDriver(driver.Driver):
 		self.client.privmsg(msg = "[musirc] login error connecting to museekd: " + error)
 		try:
 			self.socket.close()
-		except Exception, e:
+		except Exception as e:
 			pass
 		self.socket = None
 	
@@ -237,7 +237,7 @@ class clientHandler:
 						try:
 							self.driver.connect(s[0], s[1], messages.EM_PRIVATE|messages.EM_CHAT)
 							self.privmsg(msg = "[musirc] connected to museekd")
-						except Exception, e:
+						except Exception as e:
 							self.privmsg(msg = "[musirc] couldn't connect to museekd: " + str(e))
 			else:
 				self.privmsg(msg = "[musirc] unknown command: %s" % cmd)

@@ -34,9 +34,9 @@ except ImportError:
 	try:
 		import mucipher
 	except:
-		print "WARNING: The Mucipher Module for Python wasn't found and neither was PyCrypto. One of these is necessary to allow Mucous to connect to the Museek Daemon.\nDownload mucipher here: http://thegraveyard.org/files/pymucipher-0.0.1.tar.gz\nExtract the tarball, and as Root or sudo, run:\npython setup.py install\nYou'll need GCC, Python and SWIG.\nOr download PyCrypto from here: http://www.amk.ca/python/code/crypto.html"
+		print("WARNING: The Mucipher Module for Python wasn't found and neither was PyCrypto. One of these is necessary to allow Mucous to connect to the Museek Daemon.\nDownload mucipher here: http://thegraveyard.org/files/pymucipher-0.0.1.tar.gz\nExtract the tarball, and as Root or sudo, run:\npython setup.py install\nYou'll need GCC, Python and SWIG.\nOr download PyCrypto from here: http://www.amk.ca/python/code/crypto.html")
 		sys.exit()
-		
+
 REQUIRE_PYMUSEEK = '0.3.0'
 
 def versionCheck(version):
@@ -56,17 +56,17 @@ def versionCheck(version):
 
 try:
 	import messages, driver
-except Exception, error:
+except Exception as error:
 	try:
 		import museek
 		from museek import messages, driver
 		if not hasattr(museek, 'VERSION'):
-			raise Exception, "Cannot use unknown museek python bindings version."
+			raise Exception("Cannot use unknown museek python bindings version.")
 		elif hasattr(museek, 'VERSION') and not versionCheck(museek.VERSION):
-			raise Exception, "Cannot use museek python bindings version: %s" % (museek.VERSION)
-	except Exception, error:
-		print "WARNING: The Museek Message-Parsing modules, messages.py and/or driver.py were not found, or are an old version. Please install them into your '/usr/lib/python2.X/site-packages/museek' directory, or place them in a 'museek' subdirectory of the directory that contains the mucous python script."
-		print error
+			raise Exception("Cannot use museek python bindings version: %s" % (museek.VERSION))
+	except Exception as error:
+		print("WARNING: The Museek Message-Parsing modules, messages.py and/or driver.py were not found, or are an old version. Please install them into your '/usr/lib/python2.X/site-packages/museek' directory, or place them in a 'museek' subdirectory of the directory that contains the mucous python script.")
+		print(error)
 		
 		sys.exit()
 
@@ -97,8 +97,8 @@ try:
 	from pymucous.MucousChatRooms import ChatRooms
 	from pymucous.MucousShares import BrowseShares
 	from pymucous.MucousAlerts import Alerts
-except ImportError, e:
-	print "Failed loading Mucous modules:", e
+except ImportError as e:
+	print("Failed loading Mucous modules:", e)
 
 
 try:
@@ -107,7 +107,7 @@ try:
 	gi = GeoIP.new(GeoIP.GEOIP_MEMORY_CACHE)
 except ImportError:
 	geoip_fail=1
-	print "Optional Python Module GeoIP not found, you can safely disregard this message."
+	print("Optional Python Module GeoIP not found, you can safely disregard this message.")
 
 config_dir = str(os.path.expanduser("~/.mucous/"))
 log_dir = None #str(os.path.expanduser("~/.mucous/logs/"))
@@ -116,7 +116,7 @@ Version = "0.9.3"
 
 ## Command Options
 def usage():
-	print ("""Mucous is a client for Museek, the P2P Soulseek Daemon
+	print("""Mucous is a client for Museek, the P2P Soulseek Daemon
 Author: Daelstorm
 Credit: Hyriand
 Version: %s
@@ -154,7 +154,7 @@ for opts, args in opts:
 	if opts in ("-l", "--log"):
 		log_dir=str(os.path.expanduser(args))
 	if opts in ("-v", "--version"):
-		print "Mucous version: %s" % Version
+		print("Mucous version: %s" % Version)
 		sys.exit(2)
 
 
@@ -241,7 +241,7 @@ class ConfigManager:
 				self.create_config()
 				
 		else:
-			os.mkdir(config_dir, 0700)
+			os.mkdir(config_dir, 0o700)
 			self.create_config()
 			
 	
@@ -490,7 +490,7 @@ class Mucous:
 			self.stdscr.keypad(1)
 			curses.echo()
 			curses.endwin()
-			print "Console kinda small, resize it, please"
+			print("Console kinda small, resize it, please")
 			sys.exit()
 		#---------------
 		
@@ -579,27 +579,27 @@ class Mucous:
 			
 			try:
 				self.line = self.Build()
-			except Exception, e:
+			except Exception as e:
 				self.Help.Log("debug", str(e) )
 				sleep(0.1)
 			if self.D.socket is None:
 				try:
 					self.D.connect()
-				except select.error, e:
+				except select.error as e:
 					# Terminal resized
 					self.line = self.Build()
-				except KeyboardInterrupt, error:
+				except KeyboardInterrupt as error:
 					# Ctrl-C
 					self.shutdown(error)
 			try:
 				self.D.processWrap()
-			except select.error, e:
+			except select.error as e:
 				# Terminal resized
 				self.line = self.Build()
 				
-			except KeyboardInterrupt, error:
+			except KeyboardInterrupt as e:
 				# Ctrl-C
-				self.shutdown(error)
+				self.shutdown(e)
 				break
 			
 		curses.nocbreak()
@@ -633,7 +633,7 @@ class Mucous:
 						else:
 							self.edit.reset()
 				sleep(0.001)
-		except Exception, e:
+		except Exception as e:
 			self.Help.Mode()
 			self.Help.Log("debug", "Processing... " + str(e))
 
@@ -656,7 +656,7 @@ class Mucous:
 			c = self.stdscr.getkey( y, x)
 
 			return c
-		except curses.error, e:
+		except curses.error as e:
 			pass
 		return None
 
@@ -697,7 +697,7 @@ class Mucous:
 			bi.attroff(self.colors["blue"] | curses.A_BOLD)
 			self.windows["input"] = bi.subwin(w["height"], w["width"], w["top"], w["left"])
 			self.windows["input"].attroff(self.colors["blue"] | curses.A_BOLD)
-		except Exception, e:
+		except Exception as e:
 			self.Help.Log("debug", "CreateEntryBox: " + str(e))
 	## Create curses parent window, get terminal size, draw windows
 	# @param self Mucous (class)
@@ -722,7 +722,7 @@ class Mucous:
 			self.ModeTopbar()
 
 			self.PopupMenu.show  = False
-		except Exception, e:
+		except Exception as e:
 			self.Help.Log("debug", "Build: " + str(e))
 		try:
 			if self.mode == "chat":
@@ -746,7 +746,7 @@ class Mucous:
 			elif self.mode in ("debug", "help"):
 				self.Help.Mode()
 				
-		except Exception, e:
+		except Exception as e:
 			self.Help.Log("debug", "Build part 2: " + str(e))
 			curses.doupdate()
 		try:
@@ -754,7 +754,7 @@ class Mucous:
 
 			self.stdscr.nodelay(1)
 			self.edit.SelectEntryBox(self.windows["input"])
-		except Exception, e:
+		except Exception as e:
 			self.Help.Log("debug", "Build: " + str(e))
 		return self.line
 		
@@ -771,7 +771,7 @@ class Mucous:
 				return 0
 			else:
 				self.Help.Log("status", "Already connected... aborting connection attempt.")
-		except Exception, e:
+		except Exception as e:
 			self.Help.Log("debug", "ManuallyConnect: " + str(e))
 			
 	## Close mucous after disconnecting from museekd
@@ -791,12 +791,12 @@ class Mucous:
 			self.timers["clear"].cancel()
 			for timer in self.timers:
 				timer.cancel()
-		except Exception, e:
+		except Exception as e:
 			self.Help.Log("debug", "shutdown: " + str(e))
 		try:
 			self.disconnect()
 			# Quit
-		except Exception, e:
+		except Exception as e:
 			self.Help.Log("debug", "shutdown: " + str(e))
 		
 		self.stdscr.keypad(0)
@@ -814,7 +814,7 @@ class Mucous:
 			if self.Spl["connected"] == 1:
 				#driver.Driver.close(self.D)
 				self.D.close()
-		except Exception,e:
+		except Exception as e:
 			self.Help.Log("debug", "disconnect: " + str(e))
 	
 	
@@ -841,7 +841,7 @@ class Mucous:
 				self.Help.Log("status", "Logging Chat is now Enabled.")
 			else:
 				self.Help.Log("status", "Logging Chat is now Disabled.")
-		except Exception,e:
+		except Exception as e:
 			self.Help.Log("debug", "ToggleLogging: " + str(e))
 			
 	## Toggle alerts making beeps
@@ -854,7 +854,7 @@ class Mucous:
 				self.Config["mucous"]["beep"] = "yes"
 			if self.mode=="setup":
 				self.Setup.Mode()
-		except Exception, e:
+		except Exception as e:
 			self.Help.Log("debug", "ToggleBeep: "+str(e))
 	
 	## Toggle Away Status
@@ -865,7 +865,7 @@ class Mucous:
 				self.D.SetStatus(1)
 			elif self.Spl["status"] == 1:
 				self.D.SetStatus(0)
-		except Exception,e:
+		except Exception as e:
 			self.Help.Log("debug", "ToggleAwayStatus: " +str( e) )
 	## Display Mucous version and away status in the terminal title, if possible
 	# :: May cause display corruption
@@ -876,7 +876,7 @@ class Mucous:
 			if os.path.expandvars("$SHELL") in  ("/bin/bash", "/bin/sh"):
 				if str(curses.termname() ) != "linux":
 					os.system("echo -ne \"\033]0;Mucous %s: %s\007\" " %(self.Version, self.logs["onlinestatus"] ))
-		except Exception,e:
+		except Exception as e:
 			self.Help.Log("debug", "TerminalTitle: " +str( e) )
 			
 	## Emit pcspeaker style beep, if enabled
@@ -886,7 +886,7 @@ class Mucous:
 			if str(self.Config["mucous"]["beep"]) == "yes":
 				if os.path.expandvars("$SHELL") in  ("/bin/bash", "/bin/sh"):
 					os.system("echo -ne \\\\a " )
-		except Exception,e:
+		except Exception as e:
 			self.Help.Log("debug", "beep: " + str(e))
 			
 	## Redraw windows if user is in the current mode :: called on peer status updates
@@ -980,7 +980,7 @@ class Mucous:
 			elif changetype == "distrust":
 				if self.config.has_key("trusted") and username in self.config["trusted"].keys():
 					self.D.ConfigRemove("trusted", username)
-		except Exception, e:
+		except Exception as e:
 			self.Help.Log("debug", "ModifyConfig: " + str(e))
 			
 	## Update windows if a config change effects them
@@ -1008,7 +1008,7 @@ class Mucous:
 				self.PrivateChat.Mode()
 			elif domain in ("encoding.rooms" ) and self.mode == "chat":
 				self.ChatRooms.Mode()
-		except Exception, e:
+		except Exception as e:
 			self.Help.Log("debug", "ConfigUpdateDisplay: " + str(e))
 		
 		
@@ -1066,7 +1066,7 @@ class Mucous:
 			msg = self.colorednicks[room]
 			
 			#self.ChatRooms.AppendChat("List", room, '!!!!', msg)
-		except Exception, e:
+		except Exception as e:
 			self.Help.Log("debug", "show_nick_list: " + str(e))
 			
 
@@ -1127,7 +1127,7 @@ class Mucous:
 			self.windows["inputborder"].redrawwin()
 			self.windows["inputborder"].refresh()
 			self.ModeTopbar()
-		except Exception,e:
+		except Exception as e:
 			self.Help.Log("debug", "Refresh Windows: "+str(e))
 
 			
@@ -1176,7 +1176,7 @@ class Mucous:
 
 					elif self.mode == "private" and self.PrivateChat.current != None:
 						self.PrivateChat.Send(self.PrivateChat.current, message )
-		except Exception, e:
+		except Exception as e:
 			self.Help.Log("debug", "NowPlaying " +str(e))
 			
 	## Remove control characters and attempt to encoding/decode string 
@@ -1199,7 +1199,7 @@ class Mucous:
 				return z
 			except:
 				return string1
-		except Exception, e:
+		except Exception as e:
 			return string
 
 
@@ -1260,7 +1260,7 @@ class Mucous:
 			ibw.noutrefresh()
 				
 
-		except Exception, e:
+		except Exception as e:
 			self.Help.Log("debug", "SetEditTitle: " + str(e))
 			
 	## Draw Buttons for switching with the mouse to Instructions view
@@ -1311,7 +1311,7 @@ class Mucous:
 				isw.addstr(vertex,11, ">")
 				isw.noutrefresh()
 			mw.noutrefresh()
-		except Exception, e:
+		except Exception as e:
 			self.Help.Log("debug", "DrawInstructionsButtons: " + str(e))
 			
 	## Draw tabs from a list of strings 
@@ -1422,7 +1422,7 @@ class Mucous:
 				del tl
 				del tb
 				
-		except Exception, e:
+		except Exception as e:
 			self.Help.Log("debug", "DrawTabs: " + str(e))
 			
 	## Draw the Online Status in Specific colors
@@ -1451,7 +1451,7 @@ class Mucous:
 			osw.erase()
 			osw.addstr(status,  color )
 			osw.refresh()
-		except Exception,e :
+		except Exception as e :
 			self.Help.Log("debug", "DrawOnlineStatus: " + str(e))
 			
 	## Create and Draw the Topbar 
@@ -1498,7 +1498,7 @@ class Mucous:
 			
 			self.Alerts.Mode()
 			self.Transfers.Status()
-		except Exception,e :
+		except Exception as e :
 			self.Help.Log("debug", "topbar mode" + str(e))
 
 	## Create and draw the HotKeyBar (bottom of UI) 
@@ -1641,7 +1641,7 @@ class Mucous:
 				f.close()
 			except:
 				self.Help.Log("status", "Cannot write to file %s, check permissions" % path)
-		except Exception, e:
+		except Exception as e:
 			self.Help.Log("debug", "FileLog: " + str(e))
 
 	## Check if we've recieved a username 
@@ -1659,7 +1659,7 @@ class Mucous:
 				self.Help.Log("status", line)
 			if self.D.socket is not None:
 				self.D.close()
-		except Exception,e:
+		except Exception as e:
 			self.Help.Log("debug", "ThreadNickCheck: " + str(e))
 			
 	## Automatically Retry failed downloads every 30 seconds 
@@ -1675,7 +1675,7 @@ class Mucous:
 				self.timers["retry"].cancel()
 				self.timers["retry"] = threading.Timer(30.0, self.ThreadTransfersRetry)
 				self.timers["retry"].start()
-		except Exception,e:
+		except Exception as e:
 			self.Help.Log("debug", "ThreadTransfersRetry: " + str(e))
 			
 	## Automatically Retry failed downloads every 30 seconds 
@@ -1687,7 +1687,7 @@ class Mucous:
 				self.timedout = True
 				self.ToggleAwayStatus()
 
-		except Exception,e:
+		except Exception as e:
 			self.Help.Log("debug", "AwayTimeout: " + str(e))
 			
 	## Automatically Clear failed uploads and finished downloads every 30 seconds 
@@ -1708,7 +1708,7 @@ class Mucous:
 				
 				self.timers["clear"] = threading.Timer(30.0, self.ThreadTransfersClear)
 				self.timers["clear"].start()
-		except Exception,e:
+		except Exception as e:
 			self.Help.Log("debug", "ThreadTransfersClear: " + str(e))
 
 try:
@@ -1731,17 +1731,17 @@ try:
 		## @var profiler
 		# Hotshot profiler
 		profiler = hotshot.Profile(log)
-		print ("Starting using the profiler (saving log to %s)") % log
+		print("Starting using the profiler (saving log to %s)" % log)
 		sleep(1)
 		profiler.runcall(Mucous)
 	else:
 		Mucous()
-except Exception, e:
+except Exception as e:
 	curses.nocbreak()
 	curses.noecho()
 	curses.endwin()
 	sys.stdout.flush()
-	print e
+	print(e)
 else:
 	e = ""
 if pcg:

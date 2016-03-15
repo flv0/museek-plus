@@ -344,7 +344,7 @@ class CharacterParse:
 			self.mucous.line = self.line
 			self.escape = False
 			return False
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "CharacterParse process: \""+str(self.line)+"\" "+ str(e))
 			
 	## Allow for horizontal scrolling of line
@@ -380,11 +380,11 @@ class CharacterParse:
 						#self.mucous.Help.Log("status", "x: "+ str(self.x))
 						#self.mucous.Help.Log("status", "l: "+ str(len(self.line[start:end])) + " line:"+str(len(self.line)))
 					self.win.addstr(self.line[start:end])
-			except Exception, e:
+			except Exception as e:
 				pass
 				#self.mucous.Help.Log("debug", "Editwin: "+ str(e))
 			self.win.refresh()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "fixpos: \""+str(self.line)+"\" "+ str(e))
 			
 	## Delete contents of line
@@ -396,7 +396,7 @@ class CharacterParse:
 	
 			self.win.erase()
 			self.win.refresh()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "reset: \""+str(self.line)+"\" "+ str(e))
 
 
@@ -662,7 +662,7 @@ class CharacterParse:
 			
 			
 			return line
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "InputFunctions: " + str(e))
 			
 	
@@ -698,7 +698,7 @@ class CharacterParse:
 				self.mucous.ChatRooms.scrolling[self.mucous.ChatRooms.selected] = num
 			elif self.mucous.mode in ("debug", "help"):
 				self.mucous.Help.scrolling[self.mucous.mode] = num
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "UpdateScrollNum: " + str(e))
 
 	## Create Tab Completion List
@@ -744,7 +744,7 @@ class CharacterParse:
 				self.mucous.logs["tab_completion"].sort(key=str.lower)
 			else:
 				self.mucous.logs["tab_completion"] = []
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "InputCompletionList: " + str(e))
 			
 
@@ -901,7 +901,7 @@ class CharacterParse:
 					self.mucous.Transfers.DownloadManager()
 					curses.doupdate()
 				
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "ScrollText: " + str(e))
 			
 	## Complete command, word, or user in line
@@ -967,7 +967,7 @@ class CharacterParse:
 
 			return self.mucous.listline, firsttab, part, pos
 
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "InputTabCompletion: " + str(e))
 			
 	## Previously inputted messages
@@ -1001,7 +1001,7 @@ class CharacterParse:
 			line = self.mucous.logs["history"][ last_line]
 			# return old line and line's position
 			return line, self.mucous.Spl["history_count"]
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "history: " + str(e))
 	
 
@@ -1026,7 +1026,7 @@ class CharacterParse:
 				return key, match
 			else:
 				return chosen, None
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "MouseClickTab: " +str(e) )
 		
 	## Mouse Coordinates: Switch modes or options in position matches requirements
@@ -1120,7 +1120,7 @@ class CharacterParse:
 						self.mucous.Help.Mode()
 			# END OF MOUSE
 			return line
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "MouseXY: "+str(e) )
 
 	## Parse Integer set
@@ -1475,7 +1475,7 @@ class CharacterParse:
 					user  = self.mucous.dlang( str(args) )
 					self.mucous.requests["ip"].append(user)
 					self.mucous.D.PeerAddress(user)
-				except Exception, e:
+				except Exception as e:
 					self.mucous.Help.Log("debug", e)
 					
 			elif command == "/ip" and args == "":
@@ -1484,7 +1484,7 @@ class CharacterParse:
 						user  =  self.mucous.PrivateChat.current
 						self.mucous.requests["ip"].append(user)
 						self.mucous.D.PeerAddress(user)
-				except Exception, e:
+				except Exception as e:
 					self.mucous.Help.Log("debug", e)
 					
 			elif command == "/stat" and args != '':
@@ -1787,7 +1787,7 @@ class CharacterParse:
 				try:
 					self.mucous.usernames["privileges"]  = args
 					self.mucous.SetEditTitle( "% Give Privileges to " + self.mucous.usernames["privileges"])
-				except Exception, e:
+				except Exception as e:
 					self.mucous.Help.Log("debug", str(e))
 				
 			elif command == "/inrooms" and args == '':
@@ -2131,7 +2131,7 @@ class CharacterParse:
 			
 				
 			
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", 'commands: ' + str(e))
 		pass
 	

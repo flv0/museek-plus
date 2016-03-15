@@ -31,7 +31,7 @@ class PopupMenu:
 	def Refresh(self):
 		try:
 			self.mucous.refresh_windows()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "PopupMenu.Refresh: " + str(e))
 			
 	## Redraw Windows and close Menu
@@ -41,7 +41,7 @@ class PopupMenu:
 			self.show = False
 			self.current = None
 			self.Refresh()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "PopupMenu.Clear: " + str(e))
 			
 	def Scroll(self, key):
@@ -59,7 +59,7 @@ class PopupMenu:
 					if self.position < len(self.menus[self.current]['items'])-1:
 						self.position += 1
 						self.Draw()
-			except Exception, e:
+			except Exception as e:
 				pass
 					
 	## Return the correct list for the current menu
@@ -86,7 +86,7 @@ class PopupMenu:
 						this_list = self.mucous.BrowseShares.dirs
 				
 			return this_list
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "PopupMenu.List " +str(e))
 			
 	## Map mouse-clicks to events
@@ -122,7 +122,7 @@ class PopupMenu:
 				self.show = False
 				self.current = None
 				self.Refresh()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "PopupMenu.Mouse: " + str(e))
 			
 	## Run function associated with current menu position
@@ -140,7 +140,7 @@ class PopupMenu:
 			else:
 				self.Draw()
 			#self.menu()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "PopupMenu.Enter: " + str(e))
 
 	## Build Current Menu and display it
@@ -198,14 +198,14 @@ class PopupMenu:
 						self.menus[menu]["scroll"].addstr(y, x, line, self.mucous.colors["green"])
 					else:
 						self.menus[menu]["scroll"].addstr(y, x, line)
-				except Exception, e:
+				except Exception as e:
 					self.mucous.Help.Log("debug", "PopupMenu.Draw " +str(e))
 					pass
 				y += 1
 			self.menus[menu]["window"].noutrefresh()
 			self.menus[menu]["scroll"].noutrefresh()
 			curses.doupdate()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "PopupMenu.Draw " +str(e))
 	
 	## Create Package menu
@@ -351,7 +351,7 @@ class PopupMenu:
 			self.Draw()
 			curses.doupdate()
 			#sleep(1)
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "PopupMenu.Create " +str(e))
 			
 	## Select new encoding based on position
@@ -510,7 +510,7 @@ class PopupMenu:
 				self.position -=8
 				return [username, path]
 			
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "PopupMenu.ExecuteTransfers " +str(e))
 	
 	## Do an action to the selected file or directory
@@ -567,7 +567,7 @@ class PopupMenu:
 			else:
 				self.position -=1
 				return user
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "PopupMenu.ExecuteBrowse " +str(e))			
 			
 	## Call functions associated with the menu item and the list item the menu is connected to
@@ -674,7 +674,7 @@ class PopupMenu:
 			elif self.position == 10:
 				self.mucous.D.TransferUpdate(username, path) 
 			return 0
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "PopupMenu.Execute " +str(e))
 
 

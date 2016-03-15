@@ -90,7 +90,7 @@ class Recommendations:
 			
 			self.mucous.HotKeyBar()
 			curses.doupdate()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "ModeInterests: " + str(e))
 			
 	## Mouse events in likes, hates, recommendations and similar users
@@ -203,7 +203,7 @@ class Recommendations:
 						
 				self.ModeInterests()
 				return self.mucous.line
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "MouseInterests: " +str(e) )
 			
 	
@@ -251,7 +251,7 @@ class Recommendations:
 					except: pass
 				count += 1
 			self.windows["text"][mode].refresh()
-		except Exception, e:
+		except Exception as e:
 			self.windows["text"][mode].refresh()
  			self.mucous.Help.Log("debug", "DrawRecommendations: " + str(e))
 			
@@ -300,7 +300,7 @@ class Recommendations:
 				
 			
 			self.windows["text"][mode].refresh()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log( "debug", "DrawSimilarUsers " + str(e) + str(self.scrolling["similar_users" ]))
 			self.windows["text"]["similar_users"].refresh()
 	
@@ -343,7 +343,7 @@ class Recommendations:
 				count += 1
 			self.windows["text"][mode].refresh()
 		
-		except Exception, e:
+		except Exception as e:
 			#self.mucous.Help.Log( "debug", "DrawHated " + str(e))
 			self.windows["text"]["hates"].refresh()
 			
@@ -378,7 +378,7 @@ class Recommendations:
 					self.windows["text"][mode].addstr(line + " " * (w["width"] - len(line)))
 				count += 1
 			self.windows["text"][mode].refresh()
-		except Exception, e:
+		except Exception as e:
 
 			self.windows["text"][mode].refresh()
 			
@@ -457,7 +457,7 @@ class Recommendations:
 	
 			
 
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log( "debug", "InterestsWindows: " + str(e))
 			
 	
@@ -468,7 +468,7 @@ class Recommendations:
 		try:
 			if not interest.isspace() and interest != "":
 				self.mucous.D.AddInterest(interest)
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "InterestLikedAdd: " + str(e))	
 			
 	## Add an item of interest to your hated list
@@ -478,7 +478,7 @@ class Recommendations:
 		try:
 			if not interest.isspace() and interest != "":
 				self.mucous.D.AddHatedInterest(interest)
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "InterestHatedAdd: " + str(e))
 	
 	## Remove an item of interest from your liked list
@@ -489,7 +489,7 @@ class Recommendations:
 			if not interest.isspace() and interest != "":
 				if interest in self.mucous.config["interests.like"]:
 					self.mucous.D.RemoveInterest(interest)
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "InterestLikedRemove: " + str(e))
 	
 	## Remove an item of interest from your hated list
@@ -500,7 +500,7 @@ class Recommendations:
 			if not interest.isspace() and interest != "":
 				if interest in self.mucous.config["interests.hate"]:
 					self.mucous.D.RemoveHatedInterest(interest)
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "InterestHatedRemove: " + str(e))
 			
 	## Parse input entry line for interest and match it with Recommendations.selected
@@ -521,6 +521,6 @@ class Recommendations:
 					self.HatedRemove(interest)
 				
 				
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "InputInterests: " + str(e))
 

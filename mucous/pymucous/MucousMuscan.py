@@ -70,7 +70,7 @@ class Muscan:
 				self.mucous.Help.Log("status", "Your Museekd is either running remotely or already running a command, cancelling.")
 		
 			self.command = []
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "ThreadMuscan: " + str(e))
 
 	## Change setup input mode, so directory paths can be inputted

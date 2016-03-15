@@ -38,7 +38,7 @@ class Mulog(driver.Driver):
 		sys.stderr.write( "login error trying to connect to museekd:" + error + "\n")
 		try:
 			self.socket.close();
-		except Exception, e:
+		except Exception as e:
 			pass
 		self.socket = None
 	
@@ -66,7 +66,7 @@ class Logger:
 		if not os.path.isdir(path):
 			try:
 				os.makedirs(path)
-			except Exception, e:
+			except Exception as e:
 				sys.stderr.write("couldn't create log path %s\n" % path)
 				sys.stderr.write(e + "\n")
 				sys.exit(1)
@@ -234,10 +234,10 @@ try:
 	try:
 		while 1:
 			driver.process()
-	except Exception, e:
+	except Exception as e:
 		sys.stderr.write("Shutting down Mulog\n")
 		sys.stderr.write( str(e)+"\n")
-except Exception, e:
+except Exception as e:
 	sys.stderr.write("Error connecting to Museekd")
 	sys.stderr.write( str(e)+"\n")
 	

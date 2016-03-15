@@ -60,7 +60,7 @@ class UsersLists:
 			
 			self.mucous.HotKeyBar()
 			curses.doupdate()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "ModeTrust: " + str(e))
 			
 	## Display Buddied users list
@@ -79,7 +79,7 @@ class UsersLists:
 			
 			self.mucous.HotKeyBar()
 			curses.doupdate()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "ModeBuddy: " + str(e))
 	
 	## Display Banned users list
@@ -96,7 +96,7 @@ class UsersLists:
 			self.FormatLists(s, "banned")
 			self.mucous.HotKeyBar()
 			curses.doupdate()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "ban_mode: " + str(e))
 	
 	## Display Ignored users list
@@ -113,7 +113,7 @@ class UsersLists:
 			self.FormatLists(s, "ignored")
 			self.mucous.HotKeyBar()
 			curses.doupdate()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "ModeIgnore: " + str(e))
 	
 	## Format lists to fit inside window dimensions
@@ -136,7 +136,7 @@ class UsersLists:
 					count += 1
 				
 				self.windows["text"][self.current].noutrefresh()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "FormatLists: " + str(e))
 			
 	## Draw List Window borders
@@ -189,7 +189,7 @@ class UsersLists:
 			tw = self.windows["text"][self.current] = mw.subwin(s["height"], s["width"], s["top"], s["left"])
 			tw.scrollok(0)
 			tw.idlok(1)
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "DrawLists: " + str(e))
 	
 	## Draw List Contents
@@ -239,7 +239,7 @@ class UsersLists:
 							tw.addstr('v ', color)
 						else: tw.addstr('  ')
 							
-					except Exception, e:
+					except Exception as e:
 						self.mucous.Help.Log("debug", "display list text" + str(e))
 						pass
 					
@@ -284,7 +284,7 @@ class UsersLists:
 							color = self.mucous.colors["yellow"] | curses.A_BOLD 
 							tw.addstr('v ', color)
 						else: tw.addstr('  ')
-					except Exception, e:
+					except Exception as e:
 						self.mucous.Help.Log("debug", "display list text" + str(e))
 						
 				elif self.current == "ignored":
@@ -303,7 +303,7 @@ class UsersLists:
 						else: tw.addstr(' ')
 						color = self.mucous.colors["yellow"] | curses.A_BOLD 
 						tw.addstr('v ', color)
-					except Exception, e:
+					except Exception as e:
 						self.mucous.Help.Log("debug", "display list text" + str(e))
 				#else:
 					#tw.addstr(tabbeduser)
@@ -347,10 +347,10 @@ class UsersLists:
 				if self.dimensions[window]["width"] - pos > 0:
 					spaces = " " * (self.dimensions[window]["width"] - pos)
 					tw.addstr(spaces, attrib2)
-			except Exception, e:
+			except Exception as e:
 				pass
 
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "DrawLists: " + str(e))
 
 	## Mouse Coordinates in the Users Lists
@@ -400,7 +400,7 @@ class UsersLists:
 							self.mucous.PopupMenu.Create("lists", 0, True)
 						else:
 							self.SelectLists()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "UsersLists.Mouse: " +str(e) )
 	
 	## ReDraw the current List
@@ -417,7 +417,7 @@ class UsersLists:
 				self.DrawLists(lines, count, self.current)
 				count += 1
 			self.windows["text"][self.current].refresh()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "SelectLists: " + str(e))
 			
 	## Rebuild Buddied List from Mucous.config
@@ -439,7 +439,7 @@ class UsersLists:
 				if self.mucous.config.has_key("banned") and self.mucous.config["banned"].has_key(user):
 					attributes.append("banned")
 				self.logs["buddied"].append([attributes, user, note])
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "ListBuddy: " + str(e))
 			
 	## Rebuild Trusted List from Mucous.config
@@ -462,7 +462,7 @@ class UsersLists:
 					attributes.append("buddies")
 				self.logs["trusted"].append([attributes, user, note])
 				
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "ListTrust: " + str(e))
 			
 	## Rebuild ListBan from Mucous.config
@@ -484,7 +484,7 @@ class UsersLists:
 				if self.mucous.config.has_key("trusted") and self.mucous.config["trusted"].has_key(user):
 					attributes.append("trusted")
 				self.logs["banned"].append([attributes, user, note])
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "ListBan: " + str(e))
 			
 	## Rebuild ListIgnore from Mucous.config
@@ -508,7 +508,7 @@ class UsersLists:
 				self.logs["ignored"].append([attributes, user, note])
 				
 							
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "ListIgnore: " + str(e))	
 			
 			

@@ -86,7 +86,7 @@ class PrivateChat:
 			self.mucous.DrawTabs(pmusers, self.current)
 			
 			
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "PrivateChat.Mode: " +str(e))
 		curses.doupdate()
 		
@@ -112,7 +112,7 @@ class PrivateChat:
 				self.mucous.Alert.alert["PRIVATE"].remove(user)
 			if self.mucous.mode == 'private':
 				self.Mode()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "PrivateChat.Close: %s" % str(e))
 	
 	## Draw chat text
@@ -131,7 +131,7 @@ class PrivateChat:
 						lines, ls = self.mucous.FormatData.StringAddBlanks(lines, w)
 						#tw.addstr(self.mucous.dlang(lines))
 						tw.addstr(self.mucous.dlang(lines))
-					except Exception, e:
+					except Exception as e:
 						self.mucous.Help.Log("debug", "private display: " + str(e))
 				tw.noutrefresh()
 				return
@@ -200,11 +200,11 @@ class PrivateChat:
 					else:
 						tw.addstr(self.mucous.dlang(lines), attr | color )
 					count += 1
-				except Exception, e:
+				except Exception as e:
 					#self.mucous.Help.Log("debug", "private display: " + str(e))
 					pass
 			tw.noutrefresh()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "PrivateChat.Draw: " + str(e))
 			
 	## Recieved a Private Message
@@ -349,7 +349,7 @@ class PrivateChat:
 				
 			if self.mucous.mode == 'private':
 				self.Mode()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "PrivateChat.Start: " + str(e))
 			
 	## Append Private Message to Chat Log
@@ -377,7 +377,7 @@ class PrivateChat:
 					
 			
 				
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log( "debug", "PrivateChat.Log: " + str(e))
 			
 	## Read old Logfiles and import them to the chat log
@@ -413,7 +413,7 @@ class PrivateChat:
 					self.logs[username].append([timex, user, message])
 				
 				self.logs[username].append([time.strftime("%H:%M:%S"), "", "------ Old Chat Above ------"])
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "PrivateChat.ImportLogs: " +str( e) )
 	## Mouse Coordinates in the Private Chat Mode
 	# @param self is PrivateChat (class)
@@ -441,5 +441,5 @@ class PrivateChat:
 					self.mucous.PopupMenu.Create("encoding", 0, True)
 				elif x >=self.mucous.w-10 and x < self.mucous.w-1:
 					self.Close(self.current)
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "PrivateChat.Mouse: " +str(e) )

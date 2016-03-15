@@ -81,7 +81,7 @@ class Alerts:
 				self.alert["HELP"] = []
 			self.Next()
 			self.mucous.HotKeyBar()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "Alert.Check: " + str(e))
 			
 	## Display old alerts
@@ -125,7 +125,7 @@ class Alerts:
 					self.Pick()
 			else:
 				self.Pick()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log( "debug", "Alert.Next: " + str(e))
 			
 	## Display old alerts
@@ -160,7 +160,7 @@ class Alerts:
 						self.setStatus(i)
 						return
 			self.setStatus("")
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log( "debug", "Pick: " + str(e))
 			
 	## Change Alert contents directly
@@ -179,7 +179,7 @@ class Alerts:
 				line = self.mucous.dlang( self.log[:14] )
 			aw.addstr(line, self.mucous.colors["yellow"] )
 			aw.refresh()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log( "debug", "Alert.setStatus: " + str(e))
 				
 				

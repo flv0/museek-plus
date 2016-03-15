@@ -53,7 +53,7 @@ class Networking(driver.Driver):
 		except select.error, e:
 			self.mucous.Help.Log("status", "Connection Error2 "+str( e) )
 			raise select.error, e
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Mode()
 			if e == "INVPASS":
 				self.mucous.Help.Log("status", "Incorrect Password, try another.")
@@ -106,7 +106,7 @@ class Networking(driver.Driver):
 			else:
 				self.mucous.invalidpass = False
 				self.mucous.Help.Log("status", "Couldn't log in to Museekd: " + reason)
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "cb_login_error: " + str(e))
 			
 	## Recieved Login Okay from museekd
@@ -118,7 +118,7 @@ class Networking(driver.Driver):
 			self.mucous.Help.Log("status", "Logging into Museek at "+ self.mucous.Config["connection"]["interface"])
 			self.mucous.timers["timeout"] = threading.Timer(self.mucous.timeout_time, self.mucous.AwayTimeout)
 			self.mucous.timers["timeout"].start()
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "cb_login_ok: " + str(e))
 		
 	## Museekd notified that we are disconnected
@@ -166,7 +166,7 @@ class Networking(driver.Driver):
 			self.mucous.Transfers.DrawDownloadCount("0")
 
 			self.mucous.refresh_windows()
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "cb_disconnected: " + str(e))
 			
 	## Museekd sent us a status message
@@ -180,7 +180,7 @@ class Networking(driver.Driver):
 			elif type == 0:
 				stype = "Server"
 			self.mucous.Help.Log("status", "%s Message: %s" % (stype, message))
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "cb_status_message: " +str( e) )
 			
 	## Museekd sent us a debug message
@@ -191,7 +191,7 @@ class Networking(driver.Driver):
 		try:
 			if domain in ["museek.note", "museek.warn"] :
 				self.mucous.Help.Log("status", "%s Message: %s" % (domain, message))
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "cb_debug_message: " +str( e) )
 			
 	## Museekd sent us the server state and our username
@@ -247,7 +247,7 @@ class Networking(driver.Driver):
 			self.mucous.DrawOnlineStatus()
 
 			
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "cb_server_state: " +str( e) )
 		self.mucous.TerminalTitle()
 		
@@ -270,7 +270,7 @@ class Networking(driver.Driver):
 			else:
 				stime = 'You have no global privileges.'
 			self.mucous.Help.Log("status", stime)
-		except Exception,e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "cb_server_privileges: " +str( e) )
 		
 	## Recieved Room List
@@ -289,7 +289,7 @@ class Networking(driver.Driver):
 				
 			if self.mucous.mode=="roomlist":
 				self.mucous.RoomsList.Mode()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "CB Room List" + str(e))
 			
 	## Got Global Recommendations
@@ -302,7 +302,7 @@ class Networking(driver.Driver):
 				self.mucous.Recommendations.data["recommendations"] [rec] = num
 			if self.mucous.mode == "lists" and self.mucous.UsersLists.current == "interests":
 				self.mucous.Recommendations.DrawInterests()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "CB Get Global Recommendations" + str(e))
 	
 	## Got Similar Users list
@@ -316,7 +316,7 @@ class Networking(driver.Driver):
 				self.mucous.Recommendations.data["similar_users"][rec] = num
 			if self.mucous.mode == "lists" and self.mucous.UsersLists.current == "interests":
 				self.mucous.Recommendations.DrawInterests()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "CB Similar Users" + str(e))
 	
 	## Got Personal Recommendations
@@ -329,7 +329,7 @@ class Networking(driver.Driver):
 				self.mucous.Recommendations.data["recommendations"] [rec] = num
 			if self.mucous.mode == "lists" and self.mucous.UsersLists.current == "interests":
 				self.mucous.Recommendations.DrawInterests()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "CB Get  Recommendations" + str(e))
 	
 	## Got Similar Users list for an Item
@@ -343,7 +343,7 @@ class Networking(driver.Driver):
 				self.mucous.Recommendations.data["similar_users"][rec] = num
 			if self.mucous.mode == "lists" and self.mucous.UsersLists.current == "interests":
 				self.mucous.Recommendations.DrawInterests()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "CB Item Similar Users" + str(e))
 	
 	## Got Recommendations for an Item
@@ -358,7 +358,7 @@ class Networking(driver.Driver):
 				self.mucous.Recommendations.data["recommendations"] [rec] = num
 			if self.mucous.mode == "lists" and self.mucous.UsersLists.current == "interests":
 				self.mucous.Recommendations.DrawInterests()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "CB Get Item Recommendations" + str(e))
 
 	## Someone said something in a Chat Room
@@ -371,7 +371,7 @@ class Networking(driver.Driver):
 			#text = text.replace('\n', " ").replace('\t', "     ")
 			self.mucous.ChatRooms.SaidInRoom(room, user, text)
 
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "CB Room Said" + str(e))
 	
 	## Recieved Room state 
@@ -406,7 +406,7 @@ class Networking(driver.Driver):
 				self.mucous.ChatRooms.current = joined[0]
 				self.mucous.ChatRooms.Change(joined[0])
 
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "CB Room state" + str(e))
 				
 	## We Joined a room
@@ -420,7 +420,7 @@ class Networking(driver.Driver):
 			if self.mucous.ChatRooms.current == None or self.mucous.ChatRooms.current == room:
 				self.mucous.ChatRooms.Change(room)
 			curses.doupdate()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "CB Room Joined: " + str(e))
 			
 	## We left a room
@@ -429,7 +429,7 @@ class Networking(driver.Driver):
 	def cb_room_left(self, room):
 		try:
 			self.mucous.ChatRooms.Left(room)
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "CB Room Left: " + str(e))
 			
 	## A user joined a room we are in
@@ -441,7 +441,7 @@ class Networking(driver.Driver):
 		try:
 			self.mucous.ChatRooms.UserJoined( room, user, data)
 
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "CB Room User Joined" + str(e))
 			
 	## A user left a room we are in
@@ -475,7 +475,7 @@ class Networking(driver.Driver):
 						self.mucous.ChatRooms.Change(room)
 						break
 				curses.doupdate()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "CB Room User Left" + str(e))
 			
 	## A user's status changed
@@ -510,7 +510,7 @@ class Networking(driver.Driver):
 						curses.doupdate()
 			elif self.mucous.mode in ("private", "info", "browse", "lists"):
 				self.mucous.ModeReload(user)
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "CB Peer Status" + str(e))
 			
 	## Recieved a user's info
@@ -526,7 +526,7 @@ class Networking(driver.Driver):
 			
 			self.mucous.UserInfo.Recieved(user, info, picture, uploads, queue, slotsfree)
 
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log( "debug", "cb_user_info: " + str(e))
 	
 	## Recieved a user's ip and port from the server
@@ -544,13 +544,13 @@ class Networking(driver.Driver):
 				try:
 					country =  self.mucous.gi.country_name_by_addr( str(ip) )
 					self.mucous.Help.Log("status", "%s's IP: %s Port: %s Country: %s"  % (user, str(ip), str(port), country) )
-				except Exception, e:
+				except Exception as e:
 					self.mucous.Help.Log("debug", "CB Peer Address: " + str(e))
 			else:
 				self.mucous.Help.Log("status","%s's IP: %s Port: %s"  % (user, str(ip), str(port)) )
 			if self.mucous.mode not in ("status", "debug"):
 				self.mucous.Alerts.setStatus("New IP")
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log( "debug", "cb_peer_address: " + str(e))
 			
 	## Recieved peer stats from museekd
@@ -573,7 +573,7 @@ class Networking(driver.Driver):
 				self.mucous.data["mystats"] = user,  avgspeed, numdownloads, numfiles, numdirs
 				if self.mucous.mode == "setup":
 					self.mucous.Setup.Mode()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log( "debug", "cb_peer_stats: " + str(e))
 			
 	## Recieved private message from the server
@@ -588,7 +588,7 @@ class Networking(driver.Driver):
 			self.mucous.PrivateChat.Recieved(direction, timestamp, user, message)
 			
 				
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log( "debug", "cb_private_message: " + str(e))
 				
 	## Recieved a notification from the server of your away status
@@ -606,7 +606,7 @@ class Networking(driver.Driver):
 			self.mucous.DrawOnlineStatus()
 
 			self.mucous.TerminalTitle()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log( "debug", "cb_server_status_set: " + str(e))
 			
 	## Recieved list of tickers for room
@@ -620,7 +620,7 @@ class Networking(driver.Driver):
 				if "room" not in self.mucous.ChatRooms.tickers:
 					self.mucous.ChatRooms.tickers[room] = {}
 				self.mucous.ChatRooms.tickers[room][user] = message
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log( "debug", "cb_room_tickers: " + str(e))
 			
 	## A user in room set their ticker to message
@@ -639,7 +639,7 @@ class Networking(driver.Driver):
 			if room in self.mucous.ChatRooms.tickers.keys():
 				self.mucous.ChatRooms.tickers[room][user] = message
 					
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log( "debug", "cb_room_ticker_set: " + str(e))
 			
 	## New Search ticket recieved
@@ -650,7 +650,7 @@ class Networking(driver.Driver):
 		try:
 			self.mucous.Search.NewTicket(query, ticket)
 
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log( "debug", "cb_search_ticket: " + str(e))
 	
 	## Recieved search results from a user
@@ -665,7 +665,7 @@ class Networking(driver.Driver):
 		# search results
 		try:
 			self.mucous.Search.NewResults(ticket, user, free, speed, queue,results)
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "CB User Shares: " + str(e))
 
 	## Recieved a user's shares
@@ -676,7 +676,7 @@ class Networking(driver.Driver):
 		try:
 			self.mucous.BrowseShares.Recieved(user, shares)
 					
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "cb_search_results: " + str(e))
 
 	## Recieved Transfer State from museekd
@@ -713,7 +713,7 @@ class Networking(driver.Driver):
 				self.mucous.timers["clear"].cancel()
 				self.mucous.timers["clear"] = threading.Timer(30.0, self.mucous.ThreadTransfersClear)
 				self.mucous.timers["clear"].start()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "cb_transfer_state: " + str(e))
 		
 	## Recieved A Transfer update
@@ -749,7 +749,7 @@ class Networking(driver.Driver):
 			if self.mucous.mode == "transfer":
 				if self.mucous.PopupMenu.show == True:
 					self.mucous.PopupMenu.Create()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "cb_transfer_update: " + str(e))
 	## Removed a transfer
 	# @param self Networking (Driver Class)
@@ -782,7 +782,7 @@ class Networking(driver.Driver):
 							self.mucous.DownloadManager()
 							curses.doupdate()
 				self.mucous.Transfers.DrawDownloadCount(str(len(self.mucous.Transfers.transfers["downloads"].keys())))
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "cb_transfer_remove: " + str(e))
 	
 	## Set a key/value in Mucous.config
@@ -804,7 +804,7 @@ class Networking(driver.Driver):
 				self.mucous.config[domain] = {}
 			self.mucous.config[domain][key] = value
 			self.mucous.ConfigUpdateDisplay(domain)
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "cb_config_set: " + str(e))
 			
 	## Delete a key from Mucous.config
@@ -817,7 +817,7 @@ class Networking(driver.Driver):
 				self.mucous.Help.Log("status", "Removed <"+key+"> from <" +domain+">")
 				del self.mucous.config[domain][key]
 			self.mucous.ConfigUpdateDisplay(domain)
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "cb_config_remove: " + str(e))
 	
 	## Recieved a copy of museekd's config
@@ -838,7 +838,7 @@ class Networking(driver.Driver):
 				file = self.mucous.config["shares"]["database"][:33]+".xml"
 				if os.path.exists(file):
 					self.mucous.Spl["museekconfigfile"] = file
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "cb_config_state: " + str(e))
 			
 	# -- ^ Recieved Messages from Museekd^
@@ -851,7 +851,7 @@ class Networking(driver.Driver):
 		try:
 			if self.mucous.Spl["connected"] == 0: return
 			self.send(message)
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "SendMessage: " + str(e))
 	## Abort transfer (remains in transfer list)
 	# @param self Networking (class)

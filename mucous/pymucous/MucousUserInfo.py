@@ -133,7 +133,7 @@ class UserInfo:
 			self.mucous.Alerts.Check()
 			curses.doupdate()
 			#self.HotKeyBar()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "UserInfo.Mode: " + str(e))
 			
 	## Select another user
@@ -149,7 +149,7 @@ class UserInfo:
 			if self.current != place:
 				self.current = place
 				self.Mode()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "UserInfo.Select: " + str(e))
 	
 	## Draw text in text window
@@ -186,10 +186,10 @@ class UserInfo:
 					else:
 						tw.addstr(self.mucous.dlang(lines), attr)
 					count += 1
-				except Exception, e:
+				except Exception as e:
 					pass
 			tw.noutrefresh()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "UserInfo.DrawText: " + str(e))
 
 					
@@ -224,7 +224,7 @@ class UserInfo:
 					except:
 						pass
 			itw.noutrefresh()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "UserInfo.DrawStats: " + str(e))
 			
 	## Mouse Coordinates in the User Info Mode
@@ -255,7 +255,7 @@ class UserInfo:
 				elif y in ( self.mucous.h-3, self.mucous.h-4, self.mucous.h-5):
 					if x >=self.mucous.w-10 and x < self.mucous.w-1:
 						self.Close(self.current)
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "MouseUserInfo: " +str(e) )
 			
 	## Close userinfo
@@ -275,7 +275,7 @@ class UserInfo:
 				self.mucous.Alerts.alert["INFO"].remove(user)
 			if self.mucous.mode == 'info':
 				self.Mode()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "UserInfo.Close: " + str(e))
 	
 	## Append stats to text log
@@ -292,7 +292,7 @@ class UserInfo:
 				self.mucous.Help.log["userinfo"].append("%s" % s)
 			if self.mucous.mode == "info" and self.current == None:
 				self.DrawText()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "StatsLog: " + str(e))
 			
 	## Store UserInfo, stats in Log
@@ -317,6 +317,6 @@ class UserInfo:
 				self.mucous.D.PeerStats(user)
 			if self.mucous.mode == 'info':
 				self.Mode()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.Help.Log("debug", "UserInfo.Log: " + str(e))
 		

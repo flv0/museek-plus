@@ -266,7 +266,7 @@ class Help:
 			
 			self.mucous.Alerts.Check()
 			curses.doupdate()
-		except Exception, e:
+		except Exception as e:
 # 			self.Log("debug", ": " + str(e))
 			self.mucous.ChatRooms.AppendChat("Status", self.mucous.ChatRooms.current, "Format: ", str(e))
 			pass
@@ -311,11 +311,11 @@ class Help:
 						line = line[:-1]
 					self.Draw(self.mucous.mode, line, count)
 					count += 1
-				except Exception, e:
+				except Exception as e:
 					self.mucous.ChatRooms.AppendChat("Status", self.mucous.ChatRooms.current, 'ERR', str(e) )
 			tw.refresh()
 	
-		except Exception, e:
+		except Exception as e:
 			self.mucous.ChatRooms.AppendChat("Status", self.mucous.ChatRooms.current, "Format: ", str(e))
 			
 	## Append anything to the Log (converted to string)
@@ -399,7 +399,7 @@ class Help:
 						self.mucous.Alerts.alert["HELP"].append("debug")
 				
 				self.mucous.Alerts.Check()
-		except Exception, e:
+		except Exception as e:
 			self.mucous.ChatRooms.AppendChat("Status", self.mucous.ChatRooms.current, 'ERR', str(e) )
 			pass
 	
