@@ -14,7 +14,7 @@ from distutils.core import setup
 
 if __name__ == '__main__' :
     LONG_DESCRIPTION = \
-""" Mucous is a Curses interface for the Museek Daemon for the SoulSeek P2P Network
+                       """ Mucous is a Curses interface for the Museek Daemon for the SoulSeek P2P Network
 """
 
     from pymucous.utils import Version
@@ -28,7 +28,7 @@ if __name__ == '__main__' :
           url                   = "http://www.museek-plus.org/wiki/mucous",
           packages              = [ 'museek', 'pymucous' ],
           scripts               = [ 'mucous' ],
-	  data_files            = [('man/man1', ['mucous.1'])],
+          data_files            = [('man/man1', ['mucous.1'])],
           long_description      = LONG_DESCRIPTION
-         )
+    )
 

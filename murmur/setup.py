@@ -17,7 +17,7 @@ from setup_inc import *
 
 if __name__ == '__main__' :
     LONG_DESCRIPTION = \
-""" Murmur is a PyGTK2 Client for the Museek Daemon for the SoulSeek P2P Network
+                       """ Murmur is a PyGTK2 Client for the Museek Daemon for the SoulSeek P2P Network
 """
 
 
@@ -30,8 +30,8 @@ if __name__ == '__main__' :
           url                   = "http://thegraveyard.org/daelstorm/murmur.php",
           packages              = [ 'pymurmur' ],
           scripts               = [ 'murmur' ],
-	  data_files            = [('share/pixmaps/', ['images/murmur-64px.png']), ('share/applications/', ['files/murmur.desktop'])],
-	  data_files            = [('man/man1', ['murmur.1'])],
+          data_files            = [('share/pixmaps/', ['images/murmur-64px.png']), ('share/applications/', ['files/murmur.desktop'])],
+          data_files            = [('man/man1', ['murmur.1'])],
           long_description      = LONG_DESCRIPTION
-         )
+    )
 

@@ -22,90 +22,90 @@ from museek import messages, driver
 import sys, time, os, getopt, ConfigParser
 Version = "0.2.0"
 class Mulog(driver.Driver):
-	def __init__(self, logger):
-		driver.Driver.__init__(self)
-		self.logger = logger
-		self.username = None
-	def cb_disconnected(self):
-		self.logger.fatal("disconnected from museekd, bailing out")
-		sys.stderr.write( "disconnected from museekd, bailing out\n")
-		sys.exit(1)
-	def cb_login_ok(self):
-		 sys.stdout.write( "Logging into Museek at "+ mulog_config["connection"]["interface"]+"\n")
-		 sys.stdout.write( "Saving logs in " + mulog_config["mulog"]["log_dir"]+"\n")
-	def cb_login_error(self, error):
-		self.logger.fatal("login error trying to connect to museekd:", error)
-		sys.stderr.write( "login error trying to connect to museekd:" + error + "\n")
-		try:
-			self.socket.close();
-		except Exception as e:
-			pass
-		self.socket = None
-	
-	def cb_server_state(self, state, username):
-		self.username = username
-		if not state:
-			self.logger.status("not connected to SoulSeek")
-		else:
-			self.logger.status("connected to SoulSeek, your username:", username)
-			
-	def cb_private_message(self, direction, timestamp, user, message):
-		if direction == 0:
-			self.logger.private( time.strftime("%d %b %Y %H:%M:%S"), user, "["+user+"]\t"+ message )
-		elif direction == 1:
-			self.logger.private( time.strftime("%d %b %Y %H:%M:%S"), user, "["+self.username+"]\t"+ message )
-# 		self.logger.private(direction, timestamp, user, message)
-	
-	def cb_room_said(self, room, user, message):
-		self.logger.room(room, user, message)
+    def __init__(self, logger):
+        driver.Driver.__init__(self)
+        self.logger = logger
+        self.username = None
+    def cb_disconnected(self):
+        self.logger.fatal("disconnected from museekd, bailing out")
+        sys.stderr.write( "disconnected from museekd, bailing out\n")
+        sys.exit(1)
+    def cb_login_ok(self):
+        sys.stdout.write( "Logging into Museek at "+ mulog_config["connection"]["interface"]+"\n")
+        sys.stdout.write( "Saving logs in " + mulog_config["mulog"]["log_dir"]+"\n")
+    def cb_login_error(self, error):
+        self.logger.fatal("login error trying to connect to museekd:", error)
+        sys.stderr.write( "login error trying to connect to museekd:" + error + "\n")
+        try:
+            self.socket.close();
+        except Exception as e:
+            pass
+        self.socket = None
+
+    def cb_server_state(self, state, username):
+        self.username = username
+        if not state:
+            self.logger.status("not connected to SoulSeek")
+        else:
+            self.logger.status("connected to SoulSeek, your username:", username)
+
+    def cb_private_message(self, direction, timestamp, user, message):
+        if direction == 0:
+            self.logger.private( time.strftime("%d %b %Y %H:%M:%S"), user, "["+user+"]\t"+ message )
+        elif direction == 1:
+            self.logger.private( time.strftime("%d %b %Y %H:%M:%S"), user, "["+self.username+"]\t"+ message )
+            #       self.logger.private(direction, timestamp, user, message)
+
+    def cb_room_said(self, room, user, message):
+        self.logger.room(room, user, message)
 
 
 class Logger:
-	def __init__(self, path):
-		path = os.path.expanduser(path)
-		if not os.path.isdir(path):
-			try:
-				os.makedirs(path)
-			except Exception as e:
-				sys.stderr.write("couldn't create log path %s\n" % path)
-				sys.stderr.write(e + "\n")
-				sys.exit(1)
-		self.path = path
-		
-	def write(self, path, message, timestamp = None):
+    def __init__(self, path):
+        path = os.path.expanduser(path)
+        if not os.path.isdir(path):
+            try:
+                os.makedirs(path)
+            except Exception as e:
+                sys.stderr.write("couldn't create log path %s\n" % path)
+                sys.stderr.write(e + "\n")
+                sys.exit(1)
+                self.path = path
 
-		if timestamp is None:
-			timestamp = time.time()
-			timestamp = time.strftime("%d %b %Y %H:%M:%S", time.localtime(timestamp))
+    def write(self, path, message, timestamp = None):
 
-		path = os.path.join(self.path, path)
-		dir = os.path.split(path)[0]
-		if not os.path.isdir(dir):
-			os.makedirs(dir)
-		f = open(path, "a")
-		message.replace("\n","\\n")
-		f.write("%s %s\n" % (timestamp, message))
-		f.close()
-		
-	def fatal(self, *args):
-		m = " ".join(args)
-		sys.stderr.write(m + "\n")
-		self.write("syslog", m)
-		sys.exit(1)
-	
-	def status(self, *args):
-		self.write("syslog", " ".join(args))
-	
-	def private(self, timestamp, user, message):
-# 		if message[:4] == "/me ":
-# 			message = "* %s %s" % (user, message[4:])
-		user = user.replace("/", "_")
-		self.write(os.path.join("private", user), message, timestamp)
-	
-	def room(self, room, user, message):
-		message = "[%s]\t%s" % (user, message)
-		room = room.replace("/", "_")
-		self.write(os.path.join("room", room), message)
+        if timestamp is None:
+            timestamp = time.time()
+            timestamp = time.strftime("%d %b %Y %H:%M:%S", time.localtime(timestamp))
+
+        path = os.path.join(self.path, path)
+        dir = os.path.split(path)[0]
+        if not os.path.isdir(dir):
+            os.makedirs(dir)
+            f = open(path, "a")
+            message.replace("\n","\\n")
+            f.write("%s %s\n" % (timestamp, message))
+            f.close()
+
+    def fatal(self, *args):
+        m = " ".join(args)
+        sys.stderr.write(m + "\n")
+        self.write("syslog", m)
+        sys.exit(1)
+
+    def status(self, *args):
+        self.write("syslog", " ".join(args))
+
+    def private(self, timestamp, user, message):
+        #       if message[:4] == "/me ":
+        #           message = "* %s %s" % (user, message[4:])
+        user = user.replace("/", "_")
+        self.write(os.path.join("private", user), message, timestamp)
+
+    def room(self, room, user, message):
+        message = "[%s]\t%s" % (user, message)
+        room = room.replace("/", "_")
+        self.write(os.path.join("room", room), message)
 
 
 
@@ -118,126 +118,126 @@ password = None
 log_dir = None
 
 def usage():
-	print ("""Mulog is a chat logging client for Museek, the P2P Soulseek Daemon
+    print ("""Mulog is a chat logging client for Museek, the P2P Soulseek Daemon
 Author: Hyriand
 Modifications: daelstorm
 Version: %s
-	Default options: none
-	-c,	--config <file>	Use a different config file
-	-l,	--log <dir>	Use a different logging directory
-	-v,	--version	Display version and quit
-	-i,     --interface <host:port | /socket.path>   Use a different 
-	                                                 interface (saved)
-	-p,     --password <password>	Use a different password (saved)
-	-h,	--help		Display this help and exit
-	""" %Version)
-	sys.exit(2)
-	
+    Default options: none
+    -c, --config <file> Use a different config file
+    -l, --log <dir> Use a different logging directory
+    -v, --version   Display version and quit
+    -i,     --interface <host:port | /socket.path>   Use a different
+                                                     interface (saved)
+    -p,     --password <password>   Use a different password (saved)
+    -h, --help      Display this help and exit
+    """ %Version)
+    sys.exit(2)
+
 try:
-	opts, args = getopt.getopt(sys.argv[1:], "hc:vi:p:l:", ["help", "config=", "interface=", "password=", "version", "log="])
+    opts, args = getopt.getopt(sys.argv[1:], "hc:vi:p:l:", ["help", "config=", "interface=", "password=", "version", "log="])
 except getopt.GetoptError:
-	usage()
-	sys.exit(2)
+    usage()
+    sys.exit(2)
 
 for opts, args in opts:
-	if opts in ("-h", "--help"):
-		usage()
-		sys.exit()
-	if opts in ("-c", "--config"):
-		config_file=str(os.path.expanduser(args))
-	if opts in ("-l", "--log"):
-		log_dir=str(os.path.expanduser(args))
-	if opts in ("-i", "--interface"):
-		interface=str(os.path.expanduser(args))
-	if opts in ("-p", "--password"):
-		password=str(os.path.expanduser(args))
-	if opts in ("-v", "--version"):
-		print "Mulog version: %s" % Version
-		sys.exit(2)
-		
+    if opts in ("-h", "--help"):
+        usage()
+        sys.exit()
+    if opts in ("-c", "--config"):
+        config_file=str(os.path.expanduser(args))
+    if opts in ("-l", "--log"):
+        log_dir=str(os.path.expanduser(args))
+    if opts in ("-i", "--interface"):
+        interface=str(os.path.expanduser(args))
+    if opts in ("-p", "--password"):
+        password=str(os.path.expanduser(args))
+    if opts in ("-v", "--version"):
+        print "Mulog version: %s" % Version
+        sys.exit(2)
+
 parser = ConfigParser.ConfigParser()
 
 
 mulog_config = {"connection":{"interface":'localhost:2240', "password":None}, \
-	"mulog":{"log_dir": "~/.museekd/logs/"} 	}
+                "mulog":{"log_dir": "~/.museekd/logs/"}     }
 
 def create_config():
 
-	parser.read([config_file])
+    parser.read([config_file])
 
-	mulog_config_file = file(config_file, 'w')
-	
-	for i in mulog_config.keys():
-		if not parser.has_section(i):
-			parser.add_section(i)
-		for j in mulog_config[i].keys():
-			if j not in ["nonexisting", "hated", "options"]:
-				parser.set(i,j, mulog_config[i][j])
-			else:
-				parser.remove_option(i,j)
-	parser.write(mulog_config_file)
-	mulog_config_file.close()	
+    mulog_config_file = file(config_file, 'w')
+
+    for i in mulog_config.keys():
+        if not parser.has_section(i):
+            parser.add_section(i)
+        for j in mulog_config[i].keys():
+            if j not in ["nonexisting", "hated", "options"]:
+                parser.set(i,j, mulog_config[i][j])
+            else:
+                parser.remove_option(i,j)
+                parser.write(mulog_config_file)
+                mulog_config_file.close()
 
 
 def read_config():
-	
-	parser.read([config_file])
-	for i in parser.sections():
-		for j in parser.options(i):
-			val = parser.get(i,j, raw = 1)
 
-			if j in ['login','password','interface', "log_dir",] :
-				mulog_config[i][j] = val
-			else:
-				try:
-					mulog_config[i][j] = eval(val, {})
-				except:
-					mulog_config[i][j] = None
+    parser.read([config_file])
+    for i in parser.sections():
+        for j in parser.options(i):
+            val = parser.get(i,j, raw = 1)
+
+            if j in ['login','password','interface', "log_dir",] :
+                mulog_config[i][j] = val
+            else:
+                try:
+                    mulog_config[i][j] = eval(val, {})
+                except:
+                    mulog_config[i][j] = None
 
 def update_config():
-	mulog_config_file = file(config_file, 'w')
-	for i in mulog_config.keys():
-		if not parser.has_section(i):
-			parser.add_section(i)
-		for j in mulog_config[i].keys():
-			if j not in ["evilness"]:
-				parser.set(i,j, mulog_config[i][j])
-			else:
-				parser.remove_option(i,j)
-	parser.write(mulog_config_file)
-	mulog_config_file.close()
-	
+    mulog_config_file = file(config_file, 'w')
+    for i in mulog_config.keys():
+        if not parser.has_section(i):
+            parser.add_section(i)
+        for j in mulog_config[i].keys():
+            if j not in ["evilness"]:
+                parser.set(i,j, mulog_config[i][j])
+            else:
+                parser.remove_option(i,j)
+                parser.write(mulog_config_file)
+                mulog_config_file.close()
+
 def check_path():
-	if os.path.exists(config_dir):
-		if os.path.exists(config_file) and os.stat(config_file)[6] > 0:
-			read_config()
-		else:
-			create_config()
-			
-	else:
-		os.mkdir(config_dir, 0700)
-		create_config()
-check_path()
+    if os.path.exists(config_dir):
+        if os.path.exists(config_file) and os.stat(config_file)[6] > 0:
+            read_config()
+        else:
+            create_config()
+
+    else:
+        os.mkdir(config_dir, 0700)
+        create_config()
+        check_path()
 
 if log_dir != None:
-	mulog_config["mulog"]["log_dir"] = log_dir
+    mulog_config["mulog"]["log_dir"] = log_dir
 if password != None:
-	mulog_config["connection"]["password"] = password
+    mulog_config["connection"]["password"] = password
 if interface != None:
-	mulog_config["connection"]["interface"] = interface
+    mulog_config["connection"]["interface"] = interface
 
 update_config()
 logger = Logger( str(os.path.expanduser(mulog_config["mulog"]["log_dir"])) )
 driver = Mulog(logger)
 try:
-	driver.connect(mulog_config["connection"]["interface"], mulog_config["connection"]["password"], messages.EM_CHAT | messages.EM_PRIVATE)
-	try:
-		while 1:
-			driver.process()
-	except Exception as e:
-		sys.stderr.write("Shutting down Mulog\n")
-		sys.stderr.write( str(e)+"\n")
+    driver.connect(mulog_config["connection"]["interface"], mulog_config["connection"]["password"], messages.EM_CHAT | messages.EM_PRIVATE)
+    try:
+        while 1:
+            driver.process()
+    except Exception as e:
+        sys.stderr.write("Shutting down Mulog\n")
+        sys.stderr.write( str(e)+"\n")
 except Exception as e:
-	sys.stderr.write("Error connecting to Museekd")
-	sys.stderr.write( str(e)+"\n")
-	
+    sys.stderr.write("Error connecting to Museekd")
+    sys.stderr.write( str(e)+"\n")
+
