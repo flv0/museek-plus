@@ -12,6 +12,9 @@ include(CheckLibraryExists)
 include(CheckCXXSourceCompiles)
 include(GNUInstallDirs)
 
+# Include our custom helpers
+include(Helpers)
+
 # Enable NewNet's smart-pointer debugging capabilities.
 add_definitions(-DNN_PTR_DEBUG -DNN_PTR_DEBUG_ASSERT)
 

@@ -2,7 +2,7 @@ project(Mucous)
 
 # add_subdirectory(pymucous)
 set(MUCOUS_SOURCES
-    mucous
+    mucous.py
     )
 
 project(Pymucous)
@@ -30,21 +30,14 @@ install(
     DESTINATION ${CMAKE_INSTALL_PREFIX}/${sitepackages}/pymucous
     )
 
-
-# Install the muscan binary to the 'bin' directory.
-install(
-    FILES ${MUCOUS_SOURCES}
-    DESTINATION bin
-    PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
-    GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
-    )
+install_python_executables("${MUCOUS_SOURCES}" bin)
 
 set(MANPAGES
     mucous.1
     )
-
 install(
     FILES ${MANPAGES}
     DESTINATION "${CMAKE_INSTALL_MANDIR}/man1"
     )
+
 message("--> Mucous will be installed.")
