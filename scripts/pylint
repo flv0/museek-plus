@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Script to run pylint static analyzer on the python codebase.
+
+# Execute as "./scripts/pylint" from the toplevel source-tree
+
+SRCDIR=$(pwd)
+
+export PYTHONPATH="$SRCDIR/mucous:$SRCDIR/mucous/pymucous:$SRCDIR/python-bindings:$SRCDIR/murmur"
+OPTIONS="-E"
+
+export MODULES="
+       mucous/mucous.py
+       murmur/murmur.py
+       python-clients/mulog.py
+       python-clients/museekchat.py
+       python-clients/museekcontrol.py
+       python-clients/musirc.py
+"
+
+for module in $MODULES ; do
+    pylint $OPTIONS $module
+done
